@@ -1,3 +1,68 @@
-.venv
-./venv
-/venv
+# Angular / Node
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.cache/
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Python
+.venv/
+venv/
+env/
+
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Data / generated files
+data/raw/
+data/processed/
+data/*.duckdb
+data/*.db
+*.parquet
+
+# ML model artifacts
+ml/models/*.joblib
+ml/models/*.pkl
+ml/models/*.bin
+
+# Generated charts
+charts/**/*.png
+charts/**/*.jpg
+charts/**/*.jpeg
+charts/**/*.svg
+charts/**/*.webp
+
+# Logs / temp
+*.log
+tmp/
+temp/
+.cache/
+*.tmp
+*.bak
