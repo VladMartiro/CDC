@@ -1,0 +1,746 @@
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+:host {
+  display: block;
+  height: 100vh;
+
+  --carolina: #7bafd4;
+  --light-blue: #d9eaf5;
+  --navy: #13294b;
+  --cream: #f7f4ed;
+  --white: #ffffff;
+}
+
+.game {
+  height: 100vh;
+  overflow: hidden;
+  background: var(--cream);
+  color: var(--navy);
+}
+
+/* THIS is the important part */
+.story {
+  height: 100vh;
+  overflow-y: scroll;
+
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+/* EVERY QUESTION = ONE SCREEN */
+.scene {
+  min-height: 100vh;
+
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+
+  padding: 100px 32px 60px;
+
+  box-sizing: border-box;
+}
+
+.intro-scene {
+  background: var(--carolina);
+}
+
+.question-scene:nth-child(even) {
+  background: var(--cream);
+}
+
+.question-scene:nth-child(odd) {
+  background: var(--light-blue);
+}
+
+.graduation-scene {
+  background: var(--carolina);
+}
+
+.content {
+  width: min(760px, 100%);
+  text-align: center;
+}
+
+.small-label,
+.month,
+.countdown {
+  font-weight: 900;
+  letter-spacing: 0.18em;
+}
+
+.small-label,
+.countdown {
+  font-size: 12px;
+}
+
+.month {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.countdown {
+  opacity: 0.5;
+  margin-bottom: 45px;
+}
+
+h1 {
+  font-size: clamp(52px, 8vw, 105px);
+  line-height: 0.88;
+  letter-spacing: -0.06em;
+  margin: 25px 0;
+}
+
+h2 {
+  font-size: clamp(38px, 6vw, 72px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+
+  margin: 0 auto 48px;
+
+  max-width: 800px;
+}
+
+.pixel-person {
+  font-size: 90px;
+  margin: 35px;
+}
+
+.choices {
+  width: min(620px, 100%);
+  margin: auto;
+}
+
+.choice {
+  display: block;
+
+  width: 100%;
+
+  padding: 20px 16px;
+
+  border: 0;
+  border-top: 2px solid var(--navy);
+
+  background: transparent;
+  color: var(--navy);
+
+  font-size: 20px;
+  font-weight: 900;
+
+  cursor: pointer;
+
+  transition:
+    background 150ms,
+    color 150ms,
+    opacity 150ms;
+}
+
+.choice:last-child {
+  border-bottom: 2px solid var(--navy);
+}
+
+.choice:hover,
+.choice.selected {
+  background: var(--navy);
+  color: var(--white);
+}
+
+.choice.faded {
+  opacity: 0.3;
+}
+
+.consequence {
+  margin: 30px auto 0;
+
+  max-width: 520px;
+
+  font-size: 17px;
+  font-weight: 600;
+
+  line-height: 1.5;
+}
+
+.next-indicator {
+  position: absolute;
+
+  bottom: 25px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  font-size: 27px;
+  font-weight: 900;
+}
+
+.scroll-down {
+  margin-top: 50px;
+
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+
+  line-height: 2;
+}
+
+
+/* fixed top information */
+
+.hud {
+  position: fixed;
+
+  z-index: 100;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 72px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 30px;
+
+  box-sizing: border-box;
+
+  background: rgba(247, 244, 237, 0.9);
+  backdrop-filter: blur(10px);
+
+  border-bottom: 1px solid rgba(19, 41, 75, 0.15);
+
+  pointer-events: none;
+}
+
+.hud > div,
+.hud-right {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.hud-label {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  opacity: 0.45;
+}
+
+.hud strong {
+  font-size: 18px;
+}
+
+.graduation-icon {
+  font-size: 90px;
+  margin: 25px;
+}
+
+.graduation-copy {
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+.final-number {
+  margin-top: 35px;
+
+  font-size: 80px;
+  font-weight: 1000;
+}
+
+.final-label {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.17em;
+}
+/* ============================================================
+   APP NAVIGATION
+   ============================================================ */
+
+.app-shell {
+  height: 100%;
+  min-height: 100vh;
+
+  background: var(--cream);
+}
+
+.page {
+  height: 100vh;
+}
+
+/*
+  Leave room for the phone navigation bar.
+*/
+.story {
+  height: calc(100vh - 72px);
+  padding-bottom: 72px;
+}
+
+
+/* ============================================================
+   BOTTOM MOBILE NAV
+   ============================================================ */
+
+.bottom-nav {
+  position: fixed;
+
+  z-index: 1000;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 72px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  background: rgba(247, 244, 237, 0.96);
+
+  border-top: 1px solid rgba(19, 41, 75, 0.18);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.nav-button {
+  appearance: none;
+
+  border: 0;
+
+  background: transparent;
+  color: var(--navy);
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 3px;
+
+  cursor: pointer;
+
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+
+  opacity: 0.42;
+}
+
+.nav-button.active {
+  opacity: 1;
+}
+
+.nav-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.nav-button.active .nav-icon {
+  transform: translateY(-1px);
+}
+
+
+/* ============================================================
+   EXPLORE
+   ============================================================ */
+
+.explore-page {
+  min-height: 100vh;
+
+  overflow-y: auto;
+
+  background: var(--cream);
+  color: var(--navy);
+
+  padding-bottom: 110px;
+}
+
+.explore-hero {
+  min-height: 75vh;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: flex-end;
+
+  padding:
+    110px
+    max(24px, 7vw)
+    55px;
+
+  background: var(--carolina);
+}
+
+.explore-kicker {
+  margin-bottom: 14px;
+
+  font-size: 11px;
+  font-weight: 950;
+
+  letter-spacing: 0.2em;
+}
+
+.explore-hero h1 {
+  max-width: 950px;
+
+  margin: 0;
+
+  font-size: clamp(
+    48px,
+    11vw,
+    110px
+  );
+
+  line-height: 0.88;
+
+  letter-spacing: -0.06em;
+
+  font-weight: 1000;
+}
+
+.explore-hero p {
+  max-width: 550px;
+
+  margin-top: 28px;
+  margin-bottom: 0;
+
+  font-size: clamp(
+    17px,
+    4vw,
+    23px
+  );
+
+  font-weight: 650;
+
+  line-height: 1.4;
+}
+
+
+/* ============================================================
+   DATA SECTIONS
+   ============================================================ */
+
+.data-section {
+  width: min(
+    900px,
+    calc(100% - 48px)
+  );
+
+  margin: 0 auto;
+
+  padding: 70px 0;
+
+  border-bottom: 2px solid var(--navy);
+}
+
+.data-label,
+.section-heading {
+  margin-bottom: 22px;
+
+  font-size: 11px;
+  font-weight: 950;
+
+  letter-spacing: 0.17em;
+
+  opacity: 0.55;
+}
+
+.big-stat {
+  font-size: clamp(
+    90px,
+    27vw,
+    210px
+  );
+
+  font-weight: 1000;
+
+  line-height: 0.8;
+
+  letter-spacing: -0.08em;
+}
+
+.data-description {
+  margin-top: 30px;
+
+  max-width: 520px;
+
+  font-size: 18px;
+
+  line-height: 1.5;
+
+  font-weight: 600;
+}
+
+
+/* ============================================================
+   PLACEHOLDER CHART
+   ============================================================ */
+
+.chart-placeholder {
+  width: 100%;
+}
+
+.fake-chart {
+  height: 270px;
+
+  display: flex;
+  align-items: flex-end;
+
+  gap: 10px;
+
+  border-bottom: 3px solid var(--navy);
+
+  padding: 15px 4px 0;
+}
+
+.fake-bar {
+  flex: 1;
+
+  min-width: 0;
+
+  background: var(--carolina);
+
+  border: 2px solid var(--navy);
+}
+
+.chart-note {
+  margin-top: 15px;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  opacity: 0.5;
+}
+
+
+/* ============================================================
+   FACTORS
+   ============================================================ */
+
+.factor-list {
+  border-top: 2px solid var(--navy);
+}
+
+.factor {
+  min-height: 70px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 20px;
+
+  border-bottom: 2px solid var(--navy);
+
+  font-size: clamp(
+    17px,
+    4vw,
+    26px
+  );
+
+  font-weight: 900;
+}
+
+.factor strong {
+  font-size: 13px;
+
+  opacity: 0.45;
+}
+
+
+/* ============================================================
+   COUNTRIES
+   ============================================================ */
+
+.country-card {
+  border-top: 2px solid var(--navy);
+
+  padding: 22px 0;
+}
+
+.country-card:last-child {
+  border-bottom: 2px solid var(--navy);
+}
+
+.country-card > div {
+  display: flex;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  align-items: center;
+}
+
+.country-name {
+  font-size: clamp(
+    16px,
+    4vw,
+    24px
+  );
+
+  font-weight: 900;
+}
+
+.country-stat {
+  font-size: clamp(
+    28px,
+    8vw,
+    55px
+  );
+
+  font-weight: 1000;
+}
+
+.explore-bottom-space {
+  height: 40px;
+}
+
+
+/* ============================================================
+   PHONE-SPECIFIC
+   ============================================================ */
+
+@media (max-width: 700px) {
+
+  /*
+    Large enough for thumb tapping.
+  */
+  .choice {
+    min-height: 58px;
+
+    padding:
+      17px
+      14px;
+
+    font-size: 17px;
+  }
+
+
+  /*
+    Don't let the content collide
+    with phone edges.
+  */
+  .scene {
+    padding:
+      95px
+      24px
+      100px;
+  }
+
+
+  /*
+    Smaller HUD so we don't waste
+    valuable phone space.
+  */
+  .hud {
+    height: 64px;
+
+    padding:
+      0
+      18px;
+  }
+
+  .hud strong {
+    font-size: 16px;
+  }
+
+  .hud-label {
+    font-size: 8px;
+  }
+
+
+  /*
+    More reasonable mobile title size.
+  */
+  h1 {
+    font-size: clamp(
+      48px,
+      15vw,
+      74px
+    );
+  }
+
+  h2 {
+    font-size: clamp(
+      36px,
+      11vw,
+      57px
+    );
+  }
+
+
+  /*
+    Bottom nav should account for
+    iPhone safe areas.
+  */
+  .bottom-nav {
+    height:
+      calc(
+        66px +
+        env(safe-area-inset-bottom)
+      );
+  }
+
+  .story {
+    height:
+      calc(
+        100vh -
+        66px -
+        env(safe-area-inset-bottom)
+      );
+
+    padding-bottom:
+      calc(
+        66px +
+        env(safe-area-inset-bottom)
+      );
+  }
+
+}
+
+
+/* ============================================================
+   DESKTOP
+   ============================================================ */
+
+@media (min-width: 900px) {
+
+  /*
+    Desktop navigator becomes a small
+    floating navigation control.
+  */
+
+  .bottom-nav {
+    left: auto;
+    right: 28px;
+
+    bottom: 25px;
+
+    width: 260px;
+    height: 62px;
+
+    border: 2px solid var(--navy);
+
+    border-radius: 0;
+
+    padding-bottom: 0;
+  }
+
+  .story {
+    height: 100vh;
+
+    padding-bottom: 0;
+  }
+
+}
