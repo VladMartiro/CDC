@@ -246,15 +246,106 @@
     <section class="data-section">
 
       <div class="data-label">
-        GLOBAL NEET RATE
+        YOUNG US COLLEGE GRADS WHO ARE UNDEREMPLOYED
       </div>
 
       <div class="big-stat">
-        XX%
+        {{ predictions()?.national?.['underemployed'] ?? 43 | number: '1.0-0' }}%
       </div>
 
       <p class="data-description">
-        Replace this with your World Bank NEET indicator.
+        Graduates aged 22–27 with a bachelor's degree working a job that
+        typically doesn't require one. Only
+        {{ predictions()?.national?.['unemployed'] ?? 4.8 }}% are unemployed —
+        the bigger risk is ending up in the wrong job.
+      </p>
+
+    </section>
+
+
+
+    <!-- ODDS CALCULATOR -->
+
+    <section class="data-section">
+
+      <div class="section-heading">
+        WHAT ARE YOUR ODDS AT 24?
+      </div>
+
+      <div class="odds-form" *ngIf="predictions() as data; else loadingOdds">
+
+        <label class="odds-field" *ngFor="let field of profileFields">
+          <span>{{ field.label }}</span>
+          <select
+            [value]="profile()[field.key]"
+            (change)="setProfile(field.key, $any($event.target).value)"
+          >
+            <option
+              *ngFor="let option of data.dims[field.key]"
+              [value]="option"
+              [selected]="option === profile()[field.key]"
+            >{{ option }}</option>
+          </select>
+        </label>
+
+      </div>
+
+      <ng-template #loadingOdds>
+        <p class="chart-note">Loading the model…</p>
+      </ng-template>
+
+      <div class="odds-grid" *ngIf="myOdds() as odds">
+        <div class="odds-card">
+          <strong>{{ odds.unemployed }}%</strong>
+          <span>UNEMPLOYED</span>
+        </div>
+        <div class="odds-card">
+          <strong>{{ odds.neet }}%</strong>
+          <span>NEET</span>
+        </div>
+        <div class="odds-card">
+          <strong>{{ odds.underemployed }}%</strong>
+          <span>UNDEREMPLOYED</span>
+        </div>
+      </div>
+
+      <div class="what-if" *ngIf="bornElsewhereOdds() as other">
+        <div class="section-heading">
+          WHAT IF YOU {{ profile().born_us === 'Yes' ? "WEREN'T" : 'WERE' }} BORN IN THE US?
+        </div>
+        <p class="what-if-row">
+          Unemployed <b>{{ other.unemployed }}%</b> ·
+          NEET <b>{{ other.neet }}%</b> ·
+          Underemployed <b>{{ other.underemployed }}%</b>
+        </p>
+      </div>
+
+      <div class="what-if" *ngIf="otherStateOdds() as other">
+        <div class="section-heading what-if-heading">
+          WHAT IF YOU LIVED IN
+          <select
+            [value]="compareState()"
+            (change)="compareState.set($any($event.target).value)"
+          >
+            <option
+              *ngFor="let state of predictions()?.dims?.state"
+              [value]="state"
+              [selected]="state === compareState()"
+            >{{ state }}</option>
+          </select>
+          ?
+        </div>
+        <p class="what-if-row">
+          Unemployed <b>{{ other.unemployed }}%</b> ·
+          NEET <b>{{ other.neet }}%</b> ·
+          Underemployed <b>{{ other.underemployed }}%</b>
+        </p>
+      </div>
+
+      <p class="chart-note">
+        Odds for a 24-year-old with a bachelor's degree, from a gradient-boosting model
+        trained on 296,685 US graduates (Census ACS 2019–2023). These are odds for
+        people like you, not a prediction about you.
       </p>
 
     </section>
@@ -269,49 +360,60 @@
         NEET RATE OVER TIME
       </div>
 
+      <img class="chart" src="charts/neet_americas.png"
+        alt="Youth NEET rate across the Americas, 2005–2025">
 
-      <div class="chart-placeholder">
+      <p class="data-description">
+        Across the Americas, 1 in 4 young people in some countries are not in
+        education, employment, or training. The 2020 spike is COVID.
+      </p>
 
-        <div class="fake-chart">
+      <p class="chart-note">Source: World Bank, SL.UEM.NEET.ME.ZS (ILO modelled estimate).</p>
 
-          <div
-            class="fake-bar"
-            style="height: 45%"
-          ></div>
+    </section>
 
-          <div
-            class="fake-bar"
-            style="height: 58%"
-          ></div>
 
-          <div
-            class="fake-bar"
-            style="height: 52%"
-          ></div>
 
-          <div
-            class="fake-bar"
-            style="height: 72%"
-          ></div>
+    <!-- DEGREE PROTECTION -->
 
-          <div
-            class="fake-bar"
-            style="height: 64%"
-          ></div>
+    <section class="data-section">
 
-          <div
-            class="fake-bar"
-            style="height: 80%"
-          ></div>
-
-        </div>
-
+      <div class="section-heading">
+        DOES A DEGREE PROTECT YOU?
       </div>
 
+      <img class="chart" src="charts/degree_unemployment.png"
+        alt="Unemployment for everyone vs university graduates by country">
 
-      <p class="chart-note">
-        Replace this placeholder with your real chart.
+      <p class="data-description">
+        In most countries a degree lowers unemployment — but not everywhere.
+        In Haiti, Ecuador, Nicaragua, Bolivia and Mexico, graduates are
+        <i>more</i> likely to be unemployed than the average worker.
       </p>
+
+      <p class="chart-note">Source: World Bank, SL.UEM.TOTL.ZS and SL.UEM.ADVN.ZS (latest year).</p>
+
+    </section>
+
+
+
+    <!-- MAJORS -->
+
+    <section class="data-section">
+
+      <div class="section-heading">
+        YOUR MAJOR MATTERS
+      </div>
+
+      <img class="chart" src="charts/majors.png"
+        alt="Unemployment vs underemployment by major for young US graduates">
+
+      <p class="data-description">
+        Computer science grads face higher unemployment but rarely end up in jobs
+        that don't need a degree. Criminal justice is the opposite.
+      </p>
+
+      <p class="chart-note">Source: Census ACS PUMS 2019–2023, ages 22–27, bachelor's only; BLS Table 1.2.</p>
 
     </section>
 
@@ -391,81 +493,58 @@
     <section class="data-section">
 
       <div class="section-heading">
-        COMPARE COUNTRIES
+        YOUTH NEET RATE, 2025
       </div>
-
 
       <div class="country-card">
-
         <div>
-
-          <span class="country-name">
-            UNITED STATES
-          </span>
-
-          <span class="country-stat">
-            XX%
-          </span>
-
+          <span class="country-name">UNITED STATES</span>
+          <span class="country-stat">11.7%</span>
         </div>
-
       </div>
-
 
       <div class="country-card">
-
         <div>
-
-          <span class="country-name">
-            WORLD AVERAGE
-          </span>
-
-          <span class="country-stat">
-            XX%
-          </span>
-
+          <span class="country-name">MEXICO</span>
+          <span class="country-stat">16.0%</span>
         </div>
-
       </div>
-
 
       <div class="country-card">
-
         <div>
-
-          <span class="country-name">
-            COUNTRY 3
-          </span>
-
-          <span class="country-stat">
-            XX%
-          </span>
-
+          <span class="country-name">HONDURAS</span>
+          <span class="country-stat">30.8%</span>
         </div>
-
       </div>
+
+      <p class="chart-note">Source: World Bank, SL.UEM.NEET.ME.ZS, ages 15–24.</p>
 
     </section>
 
 
 
-    <!-- DATA EXPLANATION -->
+    <!-- ABOUT THE DATA -->
 
     <section class="data-section">
 
       <div class="section-heading">
-        ABOUT NEET
+        ABOUT THE DATA
       </div>
 
       <p class="data-description">
-        NEET refers to young people who are not currently
-        in employment, education, or training.
+        <b>Unemployed:</b> looking for work but without a job.
+        <b>NEET:</b> not in employment, education, or training.
+        <b>Underemployed:</b> working a job whose typical entry requirement is
+        below a bachelor's degree.
       </p>
 
-      <p class="data-description">
-        This section can later explain your World Bank
-        indicators, model, and methodology.
-      </p>
+      <ol class="references">
+        <li>World Bank, World Development Indicators, EdStats, JOIN — api.worldbank.org</li>
+        <li>US Census Bureau, American Community Survey 1-year PUMS, 2019–2023</li>
+        <li>US Bureau of Labor Statistics, Employment Projections Table 1.2 (typical entry education)</li>
+        <li>Federal Reserve Bank of New York, The Labor Market for Recent College Graduates</li>
+        <li>International Labour Organization, ILOSTAT — NEET rate by sex and education</li>
+      </ol>
 
     </section>
 
