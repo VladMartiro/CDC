@@ -1,0 +1,55 @@
+indicator,name,database,role
+SL.UEM.NEET.ME.ZS,"Share of youth not in education, employment or training, total (% of youth population)  (modeled ILO estimate)",2,target
+SL.UEM.NEET.FE.ME.ZS,"Share of youth not in education, employment or training, female (% of female youth population) (modeled ILO estimate)",2,target
+SL.UEM.NEET.MA.ME.ZS,"Share of youth not in education, employment or training, male (% of male youth population)  (modeled ILO estimate)",2,target
+SL.UEM.NEET.ZS,"Share of youth not in education, employment or training, total (% of youth population)",2,target
+SL.UEM.1524.ZS,"Unemployment, youth total (% of total labor force ages 15-24) (modeled ILO estimate)",2,economy
+SL.UEM.1524.FE.ZS,"Unemployment, youth female (% of female labor force ages 15-24) (modeled ILO estimate)",2,economy
+SL.UEM.1524.MA.ZS,"Unemployment, youth male (% of male labor force ages 15-24) (modeled ILO estimate)",2,economy
+SL.TLF.ACTI.1524.ZS,"Labor force participation rate for ages 15-24, total (%) (modeled ILO estimate)",2,economy
+SL.EMP.VULN.ZS,"Vulnerable employment, total (% of total employment) (modeled ILO estimate)",2,economy
+SL.UEM.TOTL.ZS,"Unemployment, total (% of total labor force) (modeled ILO estimate)",2,economy
+SL.UEM.ADVN.ZS,Unemployment with advanced education (% of total labor force with advanced education),2,economy
+NY.GDP.PCAP.PP.KD,"GDP per capita, PPP (constant 2021 international $)",2,context
+SI.POV.GINI,Gini index,2,context
+SI.POV.DDAY,Poverty headcount ratio at $3.00 a day (2021 PPP) (% of population),2,context
+SP.URB.TOTL.IN.ZS,Urban population (% of total population),2,context
+SP.ADO.TFRT,"Adolescent fertility rate (births per 1,000 women ages 15-19)",2,event
+SE.PRM.CMPT.ZS,"Primary completion rate, total (% of relevant age group)",2,education
+SE.SEC.CMPT.LO.ZS,"Lower secondary completion rate, total (% of relevant age group)",2,education
+SE.SEC.PROG.ZS,Progression to secondary school (%),2,education
+SE.SEC.NENR,"School enrollment, secondary (% net)",2,education
+SE.TER.ENRR,"School enrollment, tertiary (% gross)",2,education
+SE.PRM.UNER.ZS,Children out of school (% of primary school age),2,education
+SE.SEC.UNER.LO.ZS,Adolescents out of school (% of lower secondary school age),2,education
+SE.XPD.TOTL.GD.ZS,"Government expenditure on education, total (% of GDP)",2,education
+SE.XPD.SECO.PC.ZS,"Government expenditure per student, secondary (% of GDP per capita)",2,education
+SE.SEC.ENRR.UP,"Gross enrolment ratio, upper secondary, both sexes (%)",12,education
+UIS.CR.3,"Completion rate, upper secondary education, both sexes (%)",12,equity
+UIS.CR.3.F,"Completion rate, upper secondary education, female (%)",12,equity
+UIS.CR.3.M,"Completion rate, upper secondary education, male (%)",12,equity
+UIS.CR.3.Q1,"Completion rate, upper secondary education, poorest quintile, both sexes (%)",12,equity
+UIS.CR.3.Q5,"Completion rate, upper secondary education, richest quintile, both sexes (%)",12,equity
+UIS.CR.3.Q1.F,"Completion rate, upper secondary education, poorest quintile, female (%)",12,equity
+UIS.CR.3.Q1.M,"Completion rate, upper secondary education, poorest quintile, male (%)",12,equity
+UIS.CR.3.WPIA,"Completion rate, upper secondary education, adjusted wealth parity index (WPIA)",12,equity
+UIS.CR.2.Q1,"Completion rate, lower secondary education, poorest quintile, both sexes (%)",12,equity
+UIS.CR.2.Q5,"Completion rate, lower secondary education, richest quintile, both sexes (%)",12,equity
+UIS.CR.2.WPIA,"Completion rate, lower secondary education, adjusted wealth parity index (WPIA)",12,equity
+UIS.ROFST.H.2.Q1,"Out-of-school rate for adolescents of lower secondary school age, poorest quintile, both sexes (household survey data) (%)",12,equity
+UIS.ROFST.H.2.WPIA,"Out-of-school rate for adolescents of lower secondary school age, adjusted wealth parity index (household survey data) (WPIA)",12,equity
+UIS.ROFST.H.3.Q1,"Out-of-school rate for youth of upper secondary school age, poorest quintile, both sexes (household survey data) (%)",12,equity
+UIS.ROFST.H.3.Q5,"Out-of-school rate for youth of upper secondary school age, richest quintile, both sexes (household survey data) (%)",12,equity
+UIS.ROFST.H.3.WPIA,"Out-of-school rate for youth of upper secondary school age, adjusted wealth parity index (household survey data) (WPIA)",12,equity
+JI.EMP.1524.LE.ZS,"Youth employment rate, aged 15-24, primary education and below (% of youth labor force with low education)",86,transition
+JI.EMP.1524.HE.ZS,"Youth employment rate, aged 15-24, above primary education (% of youth labor force with high education)",86,transition
+JI.EMP.1524.FE.ZS,"Youth employment rate, aged 15-24, female (% of female youth labor force)",86,transition
+JI.EMP.1524.MA.ZS,"Youth employment rate, aged 15-24, male (% of male youth labor force)",86,transition
+JI.EMP.IFRM.YG.ZS,"Informal job workers, aged 15-24 (% of employed population aged 15-24)",86,transition
+4.0.nini.15a18,Youth: Neither in School Nor Working  (15-18),37,outcome_split
+4.0.nini.19a24,Youth: Neither in School Nor Working  (19-24),37,outcome_split
+4.1.nini.19a24,"Youth: Neither in School Nor Working  (19-24), Male",37,outcome_split
+4.2.nini.19a24,"Youth: Neither in School Nor Working  (19-24), Female",37,outcome_split
+4.0.stud.19a24,Youth: In School (19-24),37,outcome_split
+4.0.work.19a24,Youth: Employed (19-24),37,outcome_split
+4.0.studwork.19a24,Youth: In School and Employed (19-24),37,outcome_split
