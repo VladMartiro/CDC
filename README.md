@@ -1,4 +1,4 @@
-# CDC
+# No Cap after Cap
 
 **Live site: [vladmartiro.github.io/NoCapAfterCap](https://vladmartiro.github.io/NoCapAfterCap/)**
 
