@@ -10,13 +10,12 @@ body {
 
 body {
   font-family:
-    Arial,
-    Helvetica,
+    'Times New Roman',
     sans-serif;
 
   -webkit-font-smoothing: antialiased;
 }
 
 button {
-  font-family: inherit;
+  font-family: times new roman, serif;
 }
