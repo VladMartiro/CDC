@@ -66,3 +66,7 @@ temp/
 .cache/
 *.tmp
 *.bak
+
+# Census CPS ASEC public-use files (large)
+data/*pub26.csv
+data/WD_USA_NEET.csv
