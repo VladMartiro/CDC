@@ -402,13 +402,6 @@ button {
 }
 
 
-.game-page .restart {
-  width: min(320px, 100%);
-  margin: 26px auto 0;
-  border: 2px solid var(--navy);
-  text-align: center;
-}
-
 /* intro heading contains the long word UNDEREMPLOYMENT: size it to fit any screen */
 .game-page .story .intro-scene .content h1 {
   font-size: clamp(26px, 7.4vw, 84px);
@@ -543,4 +536,149 @@ button {
   line-height: 1.1;
   letter-spacing: -0.02em;
   opacity: 1;
+}
+
+/* ============================================================
+   GRADUATION BUTTONS + RESOURCES PAGE
+   ============================================================ */
+
+/* chunky pill buttons with a pixel-style offset shadow, like the pixel art */
+.end-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 34px;
+}
+
+.end-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 190px;
+  padding: 16px 26px;
+
+  border: 3px solid var(--navy);
+  border-radius: 999px;
+  background: var(--cream);
+  color: var(--navy);
+  box-shadow: 5px 5px 0 var(--navy);
+
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+
+  transition: transform 120ms ease, box-shadow 120ms ease, background 150ms;
+}
+
+.end-button:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 var(--navy);
+}
+
+.end-button:active {
+  transform: translate(4px, 4px);
+  box-shadow: 1px 1px 0 var(--navy);
+}
+
+.end-button-alt {
+  background: var(--light-blue);
+}
+
+.end-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--white);
+
+  font-size: 15px;
+  letter-spacing: 0;
+}
+
+.end-button:hover .end-icon {
+  animation: wiggle 400ms ease;
+}
+
+@keyframes wiggle {
+  25% { transform: rotate(-14deg); }
+  75% { transform: rotate(14deg); }
+}
+
+/* resource link cards */
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.resource-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 48px 20px 20px;
+
+  border: 2px solid var(--navy);
+  border-radius: 18px;
+  background: var(--white);
+  color: var(--navy);
+  box-shadow: 4px 4px 0 var(--navy);
+  text-decoration: none;
+
+  transition: transform 120ms ease, box-shadow 120ms ease, background 150ms;
+}
+
+.resource-card:nth-child(even) {
+  background: var(--light-blue);
+}
+
+.resource-card:hover,
+.resource-card:focus-visible {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--navy);
+  background: var(--carolina);
+}
+
+.resource-name {
+  font-size: 19px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.resource-note {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.resource-url {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 11px;
+  opacity: 0.6;
+  overflow-wrap: anywhere;
+}
+
+.resource-arrow {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--white);
+  font-size: 14px;
+}
+
+.resources-back {
+  padding: 50px 24px 10px;
+  text-align: center;
 }

@@ -321,7 +321,7 @@ h2 {
   height: 72px;
 
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
 
   background: rgba(247, 244, 237, 0.96);
 
@@ -682,7 +682,7 @@ h2 {
 
     bottom: 25px;
 
-    width: 260px;
+    width: 360px;
     height: 62px;
 
     border: 2px solid var(--navy);

@@ -181,9 +181,16 @@
 
           </details>
 
-          <button type="button" class="choice restart" (click)="restartGame()">
-            PLAY AGAIN
-          </button>
+          <div class="end-actions">
+            <button type="button" class="end-button" (click)="restartGame()">
+              <span class="end-icon" aria-hidden="true">↻</span>
+              PLAY AGAIN
+            </button>
+            <button type="button" class="end-button end-button-alt" (click)="setView('resources')">
+              <span class="end-icon" aria-hidden="true">★</span>
+              RESOURCES
+            </button>
+          </div>
         </div>
       </section>
     </main>
@@ -679,6 +686,72 @@
 
 
 
+  <!-- RESOURCES PAGE -->
+
+  <main
+    *ngIf="currentView === 'resources'"
+    class="explore-page resources-page"
+  >
+
+    <!-- HERO -->
+
+    <section class="explore-hero">
+
+      <div class="explore-kicker">
+        RESOURCES
+      </div>
+
+      <h1>
+        Where to go next
+      </h1>
+
+      <p>
+        Career help at UNC-Chapel Hill and across North Carolina,
+        from coaching and workshops to job boards.
+      </p>
+
+    </section>
+
+
+
+    <!-- ONE SECTION PER GROUP -->
+
+    <section class="data-section" *ngFor="let group of resourceGroups">
+
+      <div class="section-heading">
+        {{ group.title }}
+      </div>
+
+      <div class="resource-grid">
+        <a
+          *ngFor="let r of group.links"
+          class="resource-card"
+          [href]="r.url"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="resource-name">{{ r.name }}</span>
+          <span class="resource-note" *ngIf="r.note">{{ r.note }}</span>
+          <span class="resource-url">{{ r.url | slice: 8 }}</span>
+          <span class="resource-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+
+    </section>
+
+
+
+    <section class="resources-back">
+      <button type="button" class="end-button" (click)="setView('game')">
+        <span class="end-icon" aria-hidden="true">←</span>
+        BACK TO GAME
+      </button>
+    </section>
+
+  </main>
+
+
+
   <!--nav-->
 
   <nav
@@ -721,6 +794,26 @@
 
       <span>
         EXPLORE
+      </span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="nav-button"
+      [class.active]="
+        currentView === 'resources'
+      "
+      (click)="setView('resources')"
+    >
+
+      <span class="nav-icon">
+        ★
+      </span>
+
+      <span>
+        RESOURCES
       </span>
 
     </button>

@@ -12,6 +12,8 @@ type ProfileKey =
   | 'born_us' | 'state' | 'moved_states' | 'grad_degree';
 type Profile = Record<ProfileKey, string>;
 
+type View = 'game' | 'explore' | 'resources';
+
 interface Odds {
   unemployed: number;
   neet: number;
@@ -26,7 +28,7 @@ interface Odds {
   styleUrl: './app.css'
 })
 export class App {
-  currentView: 'game' | 'explore' = 'game';
+  currentView: View = 'game';
 
   /* ---------- Game: every decision maps to data (see game.ts) ---------- */
 
@@ -135,6 +137,30 @@ export class App {
     this.setView('explore');
     setTimeout(() => document.getElementById(sectionId)?.scrollIntoView({ block: 'start' }), 100);
   }
+
+  /* ---------- Resources page (opened from the graduation screen) ---------- */
+
+  readonly resourceGroups: { title: string; links: { name: string; url: string; note?: string }[] }[] = [
+    {
+      title: 'UNC-CH',
+      links: [
+        { name: 'UNC Heels Engage Network', url: 'https://careers.unc.edu/resources/heels-engage-network/' },
+        { name: 'UNC Career Center', url: 'https://careers.unc.edu/resources/heels-engage-network/' },
+        { name: 'Career Coaching', url: 'https://careers.unc.edu/students/schedule-an-appointment/' },
+        { name: 'UNC University Library workshops and events', url: 'https://calendar.lib.unc.edu/calendar/' },
+        { name: 'UNC Career Hub', url: 'https://careerhub.unc.edu/career-resources/find-a-career-office/' },
+        { name: 'LinkedIn Learning through UNC-CH', url: 'https://careerhub.unc.edu/career-resources/find-a-career-office/' }
+      ]
+    },
+    {
+      title: 'LOCAL / NC',
+      links: [
+        { name: 'NCWorks', url: 'https://www.ncworks.gov/vosnet/default.aspx', note: 'Help registering with and using NCWorks Online' },
+        { name: 'NCWorks NextGen Program', url: 'https://nccareers.org/ncworks-nextgen-program' },
+        { name: 'NCCareers', url: 'https://nccareers.org/' }
+      ]
+    }
+  ];
 
   restartGame(): void {
     this.choices.set({});
@@ -266,7 +292,7 @@ export class App {
     };
   }
 
-  setView(view: 'game' | 'explore'): void {
+  setView(view: View): void {
     this.currentView = view;
 
     if (view === 'explore') {
