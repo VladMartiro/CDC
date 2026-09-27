@@ -1,0 +1,335 @@
+{
+  "rows": 296685,
+  "years": [
+    "2019",
+    "2021",
+    "2022",
+    "2023"
+  ],
+  "outcomes": {
+    "unemployed": {
+      "population": 261723,
+      "weighted_rate": 0.0459,
+      "rate_by_year": {
+        "2019": 0.0426,
+        "2021": 0.0567,
+        "2022": 0.0421,
+        "2023": 0.0427
+      },
+      "models": {
+        "logistic_regression": {
+          "auc": 0.6662,
+          "brier": 0.04313,
+          "brier_baseline": 0.0439,
+          "log_loss": 0.17884,
+          "calibration": [
+            {
+              "predicted": 0.0145,
+              "actual": 0.0189
+            },
+            {
+              "predicted": 0.0209,
+              "actual": 0.0179
+            },
+            {
+              "predicted": 0.0257,
+              "actual": 0.0256
+            },
+            {
+              "predicted": 0.0306,
+              "actual": 0.0303
+            },
+            {
+              "predicted": 0.0358,
+              "actual": 0.0364
+            },
+            {
+              "predicted": 0.0417,
+              "actual": 0.0394
+            },
+            {
+              "predicted": 0.049,
+              "actual": 0.0452
+            },
+            {
+              "predicted": 0.0582,
+              "actual": 0.0599
+            },
+            {
+              "predicted": 0.0718,
+              "actual": 0.0719
+            },
+            {
+              "predicted": 0.1065,
+              "actual": 0.1105
+            }
+          ]
+        },
+        "gradient_boosting": {
+          "auc": 0.6611,
+          "brier": 0.04324,
+          "brier_baseline": 0.0439,
+          "log_loss": 0.17948,
+          "calibration": [
+            {
+              "predicted": 0.0144,
+              "actual": 0.0158
+            },
+            {
+              "predicted": 0.0208,
+              "actual": 0.0226
+            },
+            {
+              "predicted": 0.0256,
+              "actual": 0.0257
+            },
+            {
+              "predicted": 0.0305,
+              "actual": 0.032
+            },
+            {
+              "predicted": 0.0359,
+              "actual": 0.0333
+            },
+            {
+              "predicted": 0.0419,
+              "actual": 0.0434
+            },
+            {
+              "predicted": 0.0489,
+              "actual": 0.0487
+            },
+            {
+              "predicted": 0.058,
+              "actual": 0.0553
+            },
+            {
+              "predicted": 0.0718,
+              "actual": 0.0775
+            },
+            {
+              "predicted": 0.109,
+              "actual": 0.1029
+            }
+          ]
+        }
+      }
+    },
+    "neet": {
+      "population": 296685,
+      "weighted_rate": 0.0681,
+      "rate_by_year": {
+        "2019": 0.0629,
+        "2021": 0.0791,
+        "2022": 0.0647,
+        "2023": 0.066
+      },
+      "models": {
+        "logistic_regression": {
+          "auc": 0.6201,
+          "brier": 0.06242,
+          "brier_baseline": 0.06312,
+          "log_loss": 0.24214,
+          "calibration": [
+            {
+              "predicted": 0.0317,
+              "actual": 0.0307
+            },
+            {
+              "predicted": 0.0419,
+              "actual": 0.0376
+            },
+            {
+              "predicted": 0.0481,
+              "actual": 0.0479
+            },
+            {
+              "predicted": 0.0538,
+              "actual": 0.0563
+            },
+            {
+              "predicted": 0.0596,
+              "actual": 0.0596
+            },
+            {
+              "predicted": 0.0658,
+              "actual": 0.0631
+            },
+            {
+              "predicted": 0.073,
+              "actual": 0.0758
+            },
+            {
+              "predicted": 0.0823,
+              "actual": 0.084
+            },
+            {
+              "predicted": 0.0956,
+              "actual": 0.0993
+            },
+            {
+              "predicted": 0.1295,
+              "actual": 0.1215
+            }
+          ]
+        },
+        "gradient_boosting": {
+          "auc": 0.6246,
+          "brier": 0.06226,
+          "brier_baseline": 0.06312,
+          "log_loss": 0.24155,
+          "calibration": [
+            {
+              "predicted": 0.026,
+              "actual": 0.0336
+            },
+            {
+              "predicted": 0.0373,
+              "actual": 0.0427
+            },
+            {
+              "predicted": 0.0449,
+              "actual": 0.0414
+            },
+            {
+              "predicted": 0.0518,
+              "actual": 0.0552
+            },
+            {
+              "predicted": 0.0585,
+              "actual": 0.0539
+            },
+            {
+              "predicted": 0.0655,
+              "actual": 0.0604
+            },
+            {
+              "predicted": 0.0735,
+              "actual": 0.079
+            },
+            {
+              "predicted": 0.0833,
+              "actual": 0.0838
+            },
+            {
+              "predicted": 0.0974,
+              "actual": 0.0955
+            },
+            {
+              "predicted": 0.1418,
+              "actual": 0.1308
+            }
+          ]
+        }
+      }
+    },
+    "underemployed": {
+      "population": 249426,
+      "weighted_rate": 0.3966,
+      "rate_by_year": {
+        "2019": 0.4134,
+        "2021": 0.3981,
+        "2022": 0.3898,
+        "2023": 0.3866
+      },
+      "models": {
+        "logistic_regression": {
+          "auc": 0.6834,
+          "brier": 0.21648,
+          "brier_baseline": 0.23995,
+          "log_loss": 0.62193,
+          "calibration": [
+            {
+              "predicted": 0.1398,
+              "actual": 0.1652
+            },
+            {
+              "predicted": 0.2145,
+              "actual": 0.1881
+            },
+            {
+              "predicted": 0.2624,
+              "actual": 0.2428
+            },
+            {
+              "predicted": 0.319,
+              "actual": 0.3291
+            },
+            {
+              "predicted": 0.3757,
+              "actual": 0.4018
+            },
+            {
+              "predicted": 0.4221,
+              "actual": 0.4273
+            },
+            {
+              "predicted": 0.4635,
+              "actual": 0.4674
+            },
+            {
+              "predicted": 0.5049,
+              "actual": 0.5001
+            },
+            {
+              "predicted": 0.5522,
+              "actual": 0.5637
+            },
+            {
+              "predicted": 0.6456,
+              "actual": 0.6513
+            }
+          ]
+        },
+        "gradient_boosting": {
+          "auc": 0.6868,
+          "brier": 0.21535,
+          "brier_baseline": 0.23995,
+          "log_loss": 0.61873,
+          "calibration": [
+            {
+              "predicted": 0.1512,
+              "actual": 0.139
+            },
+            {
+              "predicted": 0.1954,
+              "actual": 0.185
+            },
+            {
+              "predicted": 0.2458,
+              "actual": 0.2515
+            },
+            {
+              "predicted": 0.3204,
+              "actual": 0.3321
+            },
+            {
+              "predicted": 0.3838,
+              "actual": 0.4077
+            },
+            {
+              "predicted": 0.4255,
+              "actual": 0.446
+            },
+            {
+              "predicted": 0.4652,
+              "actual": 0.4693
+            },
+            {
+              "predicted": 0.5067,
+              "actual": 0.5089
+            },
+            {
+              "predicted": 0.5595,
+              "actual": 0.5462
+            },
+            {
+              "predicted": 0.6534,
+              "actual": 0.6568
+            }
+          ]
+        }
+      }
+    }
+  }
+}

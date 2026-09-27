@@ -1,0 +1,3 @@
+# Large downloads (Census PUMS zips) - regenerate with analyses/fetch_pums.py
+*
+!.gitignore
