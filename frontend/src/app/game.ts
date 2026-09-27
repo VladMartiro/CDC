@@ -216,9 +216,9 @@ export const DECISIONS: Decision[] = [
     ],
     affectsScore: true,
     fact: ({ choice, deltas }) => ({
-      paid: `Paid interns averaged 1.01 job offers before graduating and a $68,041 starting salary, compared with 0.74 offers and $55,924 without an internship (NACE 2024). Any internship lowers the odds of underemployment by 49% (Strada & Burning Glass 2024). Your chances: ${pts(deltas[choice])}.`,
-      unpaid: `Any internship lowers the odds of underemployment by 49% (Strada & Burning Glass 2024). Tip: paid internships tend to bring more job offers before graduation, 1.01 on average vs 0.66 for unpaid (NACE 2024). Your chances: ${pts(deltas[choice])}.`,
-      none: `Summer jobs build real skills. For jobs that use your degree, internships make a big difference: 41% of interns were underemployed five years out, compared with 54% without one (Strada & Burning Glass 2024). Your chances: ${pts(deltas[choice])}.`
+      paid: `Paid interns averaged 1.01 job offers before graduating and a $68,041 starting salary, compared with 0.74 offers and $55,924 without an internship (NACE 2024). Any internship lowers the odds of underemployment by 49% (Strada & Burning Glass 2024).`,
+      unpaid: `Any internship lowers the odds of underemployment by 49% (Strada & Burning Glass 2024). Tip: paid internships tend to bring more job offers before graduation, 1.01 on average vs 0.66 for unpaid (NACE 2024).`,
+      none: `Summer jobs build real skills. For jobs that use your degree, internships make a big difference: 41% of interns were underemployed five years out, compared with 54% without one (Strada & Burning Glass 2024).`
     } as Record<string, string>)[choice]
   },
   {
