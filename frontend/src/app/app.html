@@ -1,214 +1,186 @@
 <div class="app-shell">
 
   <!-- Game page -->
-
   <div
     *ngIf="currentView === 'game'"
     class="page game-page"
   >
-
     <!-- FIXED HUD -->
     <header class="hud">
-
       <div>
         <span class="hud-label">
-          MONTH
+          DECISIONS
         </span>
-
         <strong>
-          {{
-            currentScenario < scenarios.length
-              ? scenarios[currentScenario].month
-              : 'MAY'
-          }}
+          {{ answeredCount() }} / {{ decisions.length }}
         </strong>
       </div>
-
-
       <div class="hud-right">
-
         <span class="hud-label">
-          WELLBEING
+          DEGREE-JOB CHANCES
         </span>
-
         <strong>
-          {{ wellbeing }}
+          {{ score() === null ? '—' : (score()! | number: '1.0-0') + '%' }}
         </strong>
-
       </div>
-
     </header>
 
-
     <!-- SCROLLABLE GAME -->
-
-    <main
-      class="story"
-      (scroll)="onStoryScroll($event)"
-    >
+    <main class="story">
 
       <!-- INTRO -->
-
       <section class="scene intro-scene">
-
         <div class="content">
-
           <div class="small-label">
-            YOUR SENIOR YEAR
+            FOUR YEARS, EIGHT DECISIONS
           </div>
-
           <h1>
-            CAN YOU LAND
+            LET'S NAVIGATE
             <br />
-            A JOB BEFORE
+            THE RISK OF
             <br />
-            GRADUATION?
+            UNDEREMPLOYMENT
           </h1>
-
-
-      <div class="pixel-person">
-        <img
-          src="pixel.png"
-          alt="Pixel person"
-        />
-      </div>
-
-
-          <p>
-            August.
-            <br />
-            Nine months until graduation.
+          <div class="pixel-person">
+            <img src="pixel.png" alt="Pixel person" />
+          </div>
+          <p class="intro-tagline">
+            Let's see what the statistics show about you.
           </p>
-
-
-          <div class="scroll-down">
+          <div class="scroll-down" *ngIf="ready(); else gameLoading">
             SCROLL
             <br />
             ↓
           </div>
-
+          <ng-template #gameLoading>
+            <p class="game-loading">
+              <span class="spinner" aria-hidden="true"></span> Loading the data…
+            </p>
+          </ng-template>
         </div>
-
       </section>
 
-
-      <!-- QUESTIONS -->
-
+      <!-- DECISIONS: each appears only after the previous one is answered -->
       <section
-        *ngFor="let scenario of scenarios; let i = index"
+        *ngFor="let d of visibleDecisions(); let i = index"
         class="scene question-scene"
+        [id]="'decision-' + i"
       >
-
         <div class="content question-content">
-
           <div class="month">
-            {{ scenario.month }}
+            {{ d.when }}
           </div>
-
           <div class="countdown">
-            {{ scenario.countdown }}
+            DECISION {{ i + 1 }} OF {{ decisions.length }}
           </div>
-
-
           <h2>
-            {{ scenario.text }}
+            {{ d.text }}
           </h2>
 
-
-          <div class="choices">
-
+          <div class="choices" *ngIf="d.options.length; else majorPicker">
             <button
-              *ngFor="
-                let choice of scenario.choices;
-                let j = index
-              "
+              *ngFor="let option of optionsFor(d)"
               type="button"
               class="choice"
-              [class.selected]="
-                answers[i] === j
-              "
-              [class.faded]="
-                answers[i] !== undefined &&
-                answers[i] !== j
-              "
-              (click)="selectChoice(i, j)"
+              [class.selected]="choices()[d.key] === option.value"
+              [class.faded]="choices()[d.key] !== undefined && choices()[d.key] !== option.value"
+              (click)="choose(d, option.value)"
             >
-              {{ choice.label }}
+              {{ option.label }}
             </button>
-
           </div>
 
+          <ng-template #majorPicker>
+            <select
+              class="major-select"
+              [value]="choices().major ?? ''"
+              (change)="choose(d, $any($event.target).value)"
+            >
+              <option value="" disabled [selected]="!choices().major">Choose your major</option>
+              <option *ngFor="let m of majors()" [value]="m" [selected]="m === choices().major">{{ m }}</option>
+            </select>
+          </ng-template>
 
-          <!-- CONSEQUENCE -->
-
-          <div
-            *ngIf="selectedChoice(i) as selected"
-            class="consequence"
-          >
-            {{ selected.consequence }}
+          <!-- FACT FROM THE DATA -->
+          <div *ngIf="facts()[d.key] as fact" class="consequence game-fact">
+            {{ fact }}
           </div>
 
-
-          <!-- SCROLL INDICATOR -->
-
-          <div class="next-indicator">
+          <div class="next-indicator" *ngIf="choices()[d.key] !== undefined">
             ↓
           </div>
-
         </div>
-
       </section>
 
-
-      <!----> GRADUATION -->
-
-      <section class="scene graduation-scene">
-
+      <!-- GRADUATION: only after every decision -->
+      <section *ngIf="gameDone()" class="scene graduation-scene" id="graduation">
         <div class="content">
-
           <div class="month">
             MAY
           </div>
-
           <div class="countdown">
             GRADUATION
           </div>
-
-
-      <div class="graduation-icon">
-        <img
-          src="grad.png"
-          alt="Graduation cap"
-        />
-      </div>
-
-
+          <div class="graduation-icon">
+            <img src="grad.png" alt="Graduation cap" />
+          </div>
           <h2>
             YOU MADE IT
             TO GRADUATION.
           </h2>
-
-
+          <div class="final-number">
+            {{ score() | number: '1.0-0' }}%
+          </div>
+          <div class="final-label">
+            CHANCE YOUR FIRST JOB USES YOUR DEGREE
+          </div>
           <p class="graduation-copy">
-            Your decisions throughout senior year
-            shaped the opportunities available to you.
+            Ten years out: {{ longRun() | number: '1.0-0' }}% chance of a job that uses your degree.
+            <br />
+            Curious what moves the number most? Play again and try different choices.
           </p>
 
+          <details class="hood game-hood">
 
-          <div class="final-number">
-            {{ jobScore }}
-          </div>
+            <summary>Behind the scenes: how this score is calculated</summary>
 
-          <div class="final-label">
-            JOB OPPORTUNITY SCORE
-          </div>
+            <div class="hood-body">
 
+              <p class="hood-text">
+                Your first-job chances are (1 − chance of unemployment) × (1 − chance of
+                underemployment). Both chances come from our gradient-boosted model trained on
+                296,685 US graduates, averaged over the real mix of graduates by gender, race and
+                birthplace, so only your choices move the score.
+              </p>
+
+              <p class="hood-text">
+                An internship multiplies the odds of underemployment by
+                {{ research.internshipOddsRatio }} (Strada &amp; Burning Glass Institute, 2024).
+                Ten-year chances: first-job chances × {{ research.stayCollegeLevel * 100 }}% + the
+                rest × {{ research.leaveUnderemployment * 100 }}%, from the same study. Choices with
+                no measured effect, like the elective and the AI certificate, show a fact but do
+                not change the score.
+              </p>
+
+              <p class="hood-text">
+                These are group statistics, not predictions about you. Graduates who made these
+                choices may differ in ways the data does not capture.
+              </p>
+
+              <ol class="hood-text game-sources">
+                <li *ngFor="let s of sources">{{ s }}</li>
+              </ol>
+
+            </div>
+
+          </details>
+
+          <button type="button" class="choice restart" (click)="restartGame()">
+            PLAY AGAIN
+          </button>
         </div>
-
       </section>
-
     </main>
-
   </div>
 
 
@@ -260,7 +232,9 @@
           <p class="data-description">
             Share of employed graduates aged 22 to 27 whose job does not
             typically require a bachelor's degree. Unemployment in the same group
-            is {{ model()?.outcomes?.['unemployed']?.national_rate ?? 4.8 }}%.
+            is {{ model()?.outcomes?.['unemployed']?.national_rate ?? 4.8 }}%: most graduates find
+            work. The question is whether it uses their degree, and choices made in college
+            can influence that.
           </p>
 
           <p class="group-note">
@@ -286,7 +260,7 @@
     <section class="data-section">
 
       <div class="section-heading">
-        WHAT ARE YOUR ODDS AT 24?
+        LET'S EXPLORE YOUR CHANCES AT 24
       </div>
 
       <div class="odds-form" *ngIf="model() as data; else loadingOdds">
@@ -418,7 +392,7 @@
             1.0 is perfect. Calibration error is the average gap between predicted and actual
             rates. We do not report plain accuracy: with only 5% of graduates unemployed, a model
             that always answers "employed" would be 95% accurate and useless. Background
-            characteristics explain part of the risk, not all of it, which is why the model
+            characteristics explain part of the picture, not all of it, which is why the model
             gives odds rather than verdicts.
           </p>
 
@@ -445,8 +419,8 @@
               ({{ g.row.predicted * 100 | number: '1.1-1' }}% predicted,
               {{ g.row.actual * 100 | number: '1.1-1' }}% actual){{ last ? '.' : ';' }}
             </ng-container>
-            Where the model predicts too low, the real risk is likely somewhat higher than the
-            calculator shows.
+            Where the model predicts too low, the real rate for that group is likely somewhat
+            higher than the calculator shows.
           </p>
 
           <p class="hood-text">
@@ -514,8 +488,9 @@
         alt="Bar chart of underemployment by major for young US graduates">
 
       <p class="data-description">
-        Criminal justice has the highest underemployment, at 71%. Education, computer
-        science and engineering have the lowest, at about 22%.
+        Underemployment ranges from about 22% for education, computer science and
+        engineering graduates to 71% for criminal justice. Internships lower the odds
+        across nearly every field (Strada &amp; Burning Glass Institute, 2024).
       </p>
 
 

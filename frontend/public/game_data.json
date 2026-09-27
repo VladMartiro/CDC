@@ -1,0 +1,337 @@
+{
+ "mix": [
+  {
+   "sex": "Female",
+   "race": "Asian",
+   "born_us": "No",
+   "share": 0.0249
+  },
+  {
+   "sex": "Female",
+   "race": "Asian",
+   "born_us": "Yes",
+   "share": 0.0273
+  },
+  {
+   "sex": "Female",
+   "race": "Black",
+   "born_us": "No",
+   "share": 0.0051
+  },
+  {
+   "sex": "Female",
+   "race": "Black",
+   "born_us": "Yes",
+   "share": 0.0456
+  },
+  {
+   "sex": "Female",
+   "race": "Hispanic",
+   "born_us": "No",
+   "share": 0.0141
+  },
+  {
+   "sex": "Female",
+   "race": "Hispanic",
+   "born_us": "Yes",
+   "share": 0.0686
+  },
+  {
+   "sex": "Female",
+   "race": "Other / Multiracial",
+   "born_us": "No",
+   "share": 0.0023
+  },
+  {
+   "sex": "Female",
+   "race": "Other / Multiracial",
+   "born_us": "Yes",
+   "share": 0.0273
+  },
+  {
+   "sex": "Female",
+   "race": "White",
+   "born_us": "No",
+   "share": 0.0097
+  },
+  {
+   "sex": "Female",
+   "race": "White",
+   "born_us": "Yes",
+   "share": 0.3327
+  },
+  {
+   "sex": "Male",
+   "race": "Asian",
+   "born_us": "No",
+   "share": 0.0216
+  },
+  {
+   "sex": "Male",
+   "race": "Asian",
+   "born_us": "Yes",
+   "share": 0.025
+  },
+  {
+   "sex": "Male",
+   "race": "Black",
+   "born_us": "No",
+   "share": 0.0044
+  },
+  {
+   "sex": "Male",
+   "race": "Black",
+   "born_us": "Yes",
+   "share": 0.0317
+  },
+  {
+   "sex": "Male",
+   "race": "Hispanic",
+   "born_us": "No",
+   "share": 0.0105
+  },
+  {
+   "sex": "Male",
+   "race": "Hispanic",
+   "born_us": "Yes",
+   "share": 0.0479
+  },
+  {
+   "sex": "Male",
+   "race": "Other / Multiracial",
+   "born_us": "Yes",
+   "share": 0.0202
+  },
+  {
+   "sex": "Male",
+   "race": "White",
+   "born_us": "No",
+   "share": 0.009
+  },
+  {
+   "sex": "Male",
+   "race": "White",
+   "born_us": "Yes",
+   "share": 0.2704
+  }
+ ],
+ "states": {
+  "Alabama": 0.0112,
+  "Alaska": 0.0013,
+  "Arizona": 0.0188,
+  "Arkansas": 0.0068,
+  "California": 0.1225,
+  "Colorado": 0.0221,
+  "Connecticut": 0.0133,
+  "Delaware": 0.0022,
+  "District of Columbia": 0.0053,
+  "Florida": 0.0511,
+  "Georgia": 0.03,
+  "Hawaii": 0.0032,
+  "Idaho": 0.0038,
+  "Illinois": 0.0458,
+  "Indiana": 0.0187,
+  "Iowa": 0.0097,
+  "Kansas": 0.0086,
+  "Kentucky": 0.0114,
+  "Louisiana": 0.0092,
+  "Maine": 0.004,
+  "Maryland": 0.02,
+  "Massachusetts": 0.0335,
+  "Michigan": 0.0282,
+  "Minnesota": 0.0206,
+  "Mississippi": 0.0054,
+  "Missouri": 0.0178,
+  "Montana": 0.003,
+  "Nebraska": 0.0071,
+  "Nevada": 0.006,
+  "New Hampshire": 0.0043,
+  "New Jersey": 0.0349,
+  "New Mexico": 0.0038,
+  "New York": 0.0794,
+  "North Carolina": 0.0318,
+  "North Dakota": 0.0025,
+  "Ohio": 0.0326,
+  "Oklahoma": 0.0087,
+  "Oregon": 0.0113,
+  "Pennsylvania": 0.0406,
+  "Rhode Island": 0.0039,
+  "South Carolina": 0.0129,
+  "South Dakota": 0.0026,
+  "Tennessee": 0.0203,
+  "Texas": 0.0821,
+  "Utah": 0.01,
+  "Vermont": 0.0023,
+  "Virginia": 0.028,
+  "Washington": 0.0248,
+  "West Virginia": 0.0037,
+  "Wisconsin": 0.0181,
+  "Wyoming": 0.001
+ },
+ "second_majors": {
+  "Business": 0.1869,
+  "Social Sciences": 0.1124,
+  "Communications": 0.0861,
+  "Fine Arts": 0.0622,
+  "Biology & Life Sciences": 0.0541,
+  "Health & Medical": 0.0532,
+  "Psychology": 0.0446,
+  "Languages & Linguistics": 0.0421,
+  "Computer & Information Sciences": 0.0384,
+  "Engineering": 0.0353,
+  "Education": 0.0333,
+  "Mathematics & Statistics": 0.029,
+  "Physical Sciences": 0.0273,
+  "English": 0.0255,
+  "Interdisciplinary Studies": 0.0246,
+  "Area & Ethnic Studies": 0.0215,
+  "Philosophy & Religion": 0.0206,
+  "Environment & Natural Resources": 0.018,
+  "Criminal Justice": 0.0175,
+  "Public Policy & Social Work": 0.0135,
+  "History": 0.0133,
+  "Physical Fitness & Recreation": 0.0129,
+  "Engineering Technologies": 0.0099,
+  "Agriculture": 0.0068,
+  "Pre-Law & Legal Studies": 0.0054,
+  "Liberal Arts & Humanities": 0.0034,
+  "Architecture": 0.0022
+ },
+ "majors": {
+  "Agriculture": {
+   "unemployed": 3.6,
+   "underemployed": 64.0,
+   "ai_exposed_share": 26.5
+  },
+  "Architecture": {
+   "unemployed": 4.1,
+   "underemployed": 35.4,
+   "ai_exposed_share": 17.9
+  },
+  "Area & Ethnic Studies": {
+   "unemployed": 5.4,
+   "underemployed": 51.8,
+   "ai_exposed_share": 27.5
+  },
+  "Biology & Life Sciences": {
+   "unemployed": 4.7,
+   "underemployed": 55.6,
+   "ai_exposed_share": 19.9
+  },
+  "Business": {
+   "unemployed": 4.4,
+   "underemployed": 43.6,
+   "ai_exposed_share": 46.0
+  },
+  "Communications": {
+   "unemployed": 5.9,
+   "underemployed": 48.1,
+   "ai_exposed_share": 40.1
+  },
+  "Computer & Information Sciences": {
+   "unemployed": 6.2,
+   "underemployed": 22.3,
+   "ai_exposed_share": 34.6
+  },
+  "Criminal Justice": {
+   "unemployed": 4.0,
+   "underemployed": 71.2,
+   "ai_exposed_share": 19.0
+  },
+  "Education": {
+   "unemployed": 2.6,
+   "underemployed": 22.0,
+   "ai_exposed_share": 7.0
+  },
+  "Engineering": {
+   "unemployed": 4.0,
+   "underemployed": 22.9,
+   "ai_exposed_share": 25.1
+  },
+  "Engineering Technologies": {
+   "unemployed": 4.2,
+   "underemployed": 47.1,
+   "ai_exposed_share": 24.2
+  },
+  "English": {
+   "unemployed": 5.8,
+   "underemployed": 51.5,
+   "ai_exposed_share": 32.5
+  },
+  "Environment & Natural Resources": {
+   "unemployed": 5.1,
+   "underemployed": 52.4,
+   "ai_exposed_share": 30.3
+  },
+  "Fine Arts": {
+   "unemployed": 7.5,
+   "underemployed": 51.3,
+   "ai_exposed_share": 19.9
+  },
+  "Health & Medical": {
+   "unemployed": 3.1,
+   "underemployed": 33.4,
+   "ai_exposed_share": 10.2
+  },
+  "History": {
+   "unemployed": 6.7,
+   "underemployed": 54.2,
+   "ai_exposed_share": 25.4
+  },
+  "Interdisciplinary Studies": {
+   "unemployed": 4.5,
+   "underemployed": 49.2,
+   "ai_exposed_share": 23.1
+  },
+  "Languages & Linguistics": {
+   "unemployed": 4.4,
+   "underemployed": 54.3,
+   "ai_exposed_share": 26.7
+  },
+  "Liberal Arts & Humanities": {
+   "unemployed": 5.9,
+   "underemployed": 55.2,
+   "ai_exposed_share": 22.5
+  },
+  "Mathematics & Statistics": {
+   "unemployed": 5.3,
+   "underemployed": 30.0,
+   "ai_exposed_share": 40.6
+  },
+  "Philosophy & Religion": {
+   "unemployed": 5.0,
+   "underemployed": 49.5,
+   "ai_exposed_share": 19.4
+  },
+  "Physical Fitness & Recreation": {
+   "unemployed": 4.9,
+   "underemployed": 63.6,
+   "ai_exposed_share": 17.9
+  },
+  "Physical Sciences": {
+   "unemployed": 5.0,
+   "underemployed": 44.7,
+   "ai_exposed_share": 25.1
+  },
+  "Pre-Law & Legal Studies": {
+   "unemployed": 5.0,
+   "underemployed": 65.5,
+   "ai_exposed_share": 27.6
+  },
+  "Psychology": {
+   "unemployed": 5.2,
+   "underemployed": 53.4,
+   "ai_exposed_share": 20.4
+  },
+  "Public Policy & Social Work": {
+   "unemployed": 4.3,
+   "underemployed": 42.9,
+   "ai_exposed_share": 18.5
+  },
+  "Social Sciences": {
+   "unemployed": 6.2,
+   "underemployed": 47.9,
+   "ai_exposed_share": 36.0
+  }
+ }
+}
