@@ -1,9 +1,6 @@
-```html
 <div class="app-shell">
 
-  <!-- =========================================================
-       GAME PAGE
-       ========================================================= -->
+  <!-- Game page -->
 
   <div
     *ngIf="currentView === 'game'"
@@ -69,9 +66,12 @@
           </h1>
 
 
-          <div class="pixel-person">
-            🧍
-          </div>
+      <div class="pixel-person">
+        <img
+          src="/pixel.png"
+          alt="Pixel person"
+        />
+      </div>
 
 
           <p>
@@ -160,7 +160,7 @@
       </section>
 
 
-      <!-- GRADUATION -->
+      <!----> GRADUATION -->
 
       <section class="scene graduation-scene">
 
@@ -210,9 +210,7 @@
 
 
 
-  <!-- =========================================================
-       EXPLORE PAGE
-       ========================================================= -->
+  <!-- EXPLORE PAGE -->
 
   <main
     *ngIf="currentView === 'explore'"
@@ -228,8 +226,7 @@
       </div>
 
       <h1>
-        WHY DO YOUNG PEOPLE
-        BECOME NEET?
+        There's data behind the game
       </h1>
 
       <p>
@@ -477,9 +474,7 @@
 
 
 
-  <!-- =========================================================
-       NAVIGATION
-       ========================================================= -->
+  <!--nav-->
 
   <nav
     class="bottom-nav"
@@ -528,4 +523,3 @@
   </nav>
 
 </div>
-```
