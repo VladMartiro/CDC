@@ -1,6 +1,6 @@
 # CDC
 
-**Live site: [vladmartiro.github.io/CDC](https://vladmartiro.github.io/CDC/)**
+**Live site: [vladmartiro.github.io/NoCapAfterCap](https://vladmartiro.github.io/NoCapAfterCap/)**
 
 This is our submission to the **CDC (Carolina Data Challenge)**, hosted by UNC Chapel Hill.
 It was written in **September 2026**. All team members are **first-year PhD students at the UNC School of
