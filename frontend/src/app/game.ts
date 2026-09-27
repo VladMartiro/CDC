@@ -238,7 +238,7 @@ export const DECISIONS: Decision[] = [
     affectsScore: false,
     fact: ({ choices, data }) => {
       const share = data.majors[choices.major ?? '']?.ai_exposed_share;
-      const mine = share == null ? '' : ` In your major, ${share}% of young graduates work in jobs where AI can speed up at least half the tasks (our analysis of Eloundou et al. 2023).`;
+      const mine = share == null ? '' : ` In your major, ${share}% of young graduates work in jobs where AI can speed up at least half the tasks (Eloundou et al. 2023).`;
       return `AI is reshaping entry-level work: since generative AI spread, early-career employment in the most AI-exposed jobs fell 13% relative to other jobs (Brynjolfsson, Chandar & Chen 2025), which makes AI skills worth building.${mine}\nCertificates have not been studied for new graduates yet. Your chances hold steady.`;
     }
   },
@@ -254,7 +254,7 @@ export const DECISIONS: Decision[] = [
     affectsScore: true,
     fact: ({ choice, deltas }) => choice === 'home'
       ? `Staying close to home matters to a lot of people: 84% of graduates say cost of living shapes whether they would move (NACE 2024).`
-      : `Averaged over where graduates actually live, a national search ${ptsPhrase(deltas['anywhere'])} compared with staying in North Carolina (our model).`
+      : `Averaged over where graduates actually live, a national search ${ptsPhrase(deltas['anywhere'])} compared with staying in North Carolina.`
   },
   {
     key: 'grad',
@@ -282,7 +282,7 @@ export const DECISIONS: Decision[] = [
     affectsScore: true,
     fact: ({ choice, rates }) => choice === 'accept'
       ? 'A paycheck and experience count. Worth knowing: first jobs tend to set the track, and 73% of graduates who start in a job that does not require a degree are still in one 10 years later (Strada & Burning Glass 2024). Keeping an eye out for degree-level roles helps you switch tracks.'
-      : `Graduates who start in a job that uses their degree are 3.5 times less likely to be underemployed 10 years later (Strada & Burning Glass 2024). Searching longer carries its own risk: ${(rates.unemployed * 100).toFixed(1)}% of graduates on your path are unemployed at 24 (our model).`
+      : `Graduates who start in a job that uses their degree are 3.5 times less likely to be underemployed 10 years later (Strada & Burning Glass 2024). Searching longer carries its own risk: ${(rates.unemployed * 100).toFixed(1)}% of graduates on your path are unemployed at 24.`
   }
 ];
 
