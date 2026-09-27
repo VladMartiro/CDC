@@ -25,76 +25,111 @@ plt.rcParams.update({
 })
 
 
-def save(fig, name):
+WB_TOOLS = "Chart built in Python (pandas, matplotlib) with data retrieved through the World Bank API."
+CENSUS_TOOLS = "Survey-weighted rates computed in Python (pandas, NumPy); chart built with matplotlib."
+CENSUS_SOURCE = ("Source: US Census Bureau, American Community Survey 1-year PUMS, 2019 and 2021–2023; "
+                 "BLS Employment Projections, Table 1.2.\nGraduates aged 22 to 27 with a bachelor's degree. ")
+
+
+def save(fig, name, note):
     fig.tight_layout()
-    fig.savefig(OUT / name, dpi=160)
+    fig.text(0.01, 0, note, ha="left", va="top", fontsize=8.5, style="italic",
+             fontweight="normal", color=NAVY, alpha=0.75, linespacing=1.5)
+    fig.savefig(OUT / name, dpi=160, bbox_inches="tight", pad_inches=0.2)
     plt.close(fig)
     print("wrote", OUT / name)
 
 
-def neet_over_time(wb):
-    """Youth NEET rate across the Americas; a few countries highlighted."""
+def neet_by_country(wb):
+    """Youth NEET rate by country, latest year, United States highlighted."""
     neet = wb[wb["indicator"] == "SL.UEM.NEET.ME.ZS"]
-    highlight = {"United States": NAVY, "Mexico": "#d9822b", "Brazil": "#3a7d44", "Honduras": "#b23a48"}
-    fig, ax = plt.subplots(figsize=(8, 5))
-    for country, g in neet.groupby("country"):
-        if country not in highlight:
-            ax.plot(g["year"], g["value"], color=GREY, lw=1, alpha=0.7)
-    for country, color in highlight.items():
-        g = neet[neet["country"] == country]
-        ax.plot(g["year"], g["value"], color=color, lw=3)
-        ax.annotate(country, (g["year"].iloc[-1], g["value"].iloc[-1]), xytext=(6, 0),
-                    textcoords="offset points", va="center", color=color)
-    ax.set_ylabel("% of youth (15–24) who are NEET")
-    ax.set_xlim(neet["year"].min(), neet["year"].max() + 5)
-    ax.set_xticks(range(2005, 2026, 5))
-    ax.set_title("Youth NEET rate across the Americas", loc="left", fontsize=15)
-    save(fig, "neet_americas.png")
+    year = neet["year"].max()
+    latest = neet[neet["year"] == year].set_index("country")["value"].sort_values()
+    fig, ax = plt.subplots(figsize=(8, 0.3 * len(latest) + 1.4))
+    colors = [CAROLINA if c == "United States" else GREY for c in latest.index]
+    ax.barh(latest.index, latest.values, color=colors, edgecolor=NAVY, linewidth=1.2, height=0.65)
+    for i, v in enumerate(latest.values):
+        ax.text(v + 0.5, i, f"{v:.0f}%", va="center", fontsize=10)
+    ax.set_xlim(0, latest.max() * 1.12)
+    ax.set_xlabel("% of youth aged 15 to 24 who are NEET")
+    ax.margins(y=0.01)
+    ax.set_title(f"Youth NEET rate by country, {year}", loc="left", fontsize=15)
+    save(fig, "neet_americas.png",
+         "Source: World Bank, World Development Indicators (SL.UEM.NEET.ME.ZS), ILO modelled estimates.\n"
+         + WB_TOOLS)
 
 
 def degree_protection(wb):
-    """Overall unemployment vs unemployment of people with a university degree, latest year."""
+    """Graduate unemployment minus overall unemployment, latest year per country."""
     latest = (wb[wb["indicator"].isin(["SL.UEM.TOTL.ZS", "SL.UEM.ADVN.ZS"])]
               .sort_values("year").groupby(["country", "indicator"]).last()["value"].unstack().dropna())
-    latest = latest.sort_values("SL.UEM.ADVN.ZS")
-    fig, ax = plt.subplots(figsize=(8, 0.34 * len(latest) + 1.5))
-    y = np.arange(len(latest))
-    ax.hlines(y, latest["SL.UEM.ADVN.ZS"], latest["SL.UEM.TOTL.ZS"], color=GREY, lw=3)
-    ax.scatter(latest["SL.UEM.TOTL.ZS"], y, color=GREY, s=60, zorder=3, label="Everyone")
-    ax.scatter(latest["SL.UEM.ADVN.ZS"], y, color=NAVY, s=60, zorder=3, label="University degree")
-    ax.set_yticks(y, latest.index)
-    ax.set_xlabel("Unemployment rate (%)")
-    ax.legend(frameon=False, loc="lower right")
-    ax.set_title("Does a degree protect you from unemployment?", loc="left", fontsize=15)
-    save(fig, "degree_unemployment.png")
+    gap = (latest["SL.UEM.ADVN.ZS"] - latest["SL.UEM.TOTL.ZS"]).sort_values()
+    fig, ax = plt.subplots(figsize=(8, 0.3 * len(gap) + 1.4))
+    colors = [CAROLINA if v > 0 else GREY for v in gap.values]
+    ax.barh(gap.index, gap.values, color=colors, edgecolor=NAVY, linewidth=1.2, height=0.65)
+    for i, v in enumerate(gap.values):
+        ax.text(v + (0.3 if v >= 0 else -0.3), i, f"{v:+.1f}", va="center",
+                ha="left" if v >= 0 else "right", fontsize=10)
+    ax.axvline(0, color=NAVY, lw=1.5)
+    ax.set_xlim(gap.min() - 2, gap.max() + 2.5)
+    ax.set_xlabel("Percentage points, graduates minus all workers")
+    ax.margins(y=0.01)
+    ax.set_title("Where a degree does not lower unemployment", loc="left", fontsize=15)
+    save(fig, "degree_unemployment.png",
+         "Source: World Bank, World Development Indicators (SL.UEM.TOTL.ZS, SL.UEM.ADVN.ZS).\n"
+         "Latest year available for each country, mostly 2023–2025.\n" + WB_TOOLS)
 
 
 def majors(people):
-    """Actual unemployment vs underemployment by major (US, bachelor's only, ages 22–27)."""
-    rates = {}
-    for outcome, subset in OUTCOMES.items():
-        s = subset(people)
-        weighted = (s[outcome] * s["weight"]).groupby(s["major"]).sum()
-        rates[outcome] = weighted / s["weight"].groupby(s["major"]).sum() * 100
-    r = pd.DataFrame(rates).drop(index="Other", errors="ignore")
-    fig, ax = plt.subplots(figsize=(9, 6.5))
-    ax.scatter(r["unemployed"], r["underemployed"], s=70, color=CAROLINA, edgecolor=NAVY, lw=1.5, zorder=3)
-    for major, row in r.iterrows():
-        ax.annotate(major, (row["unemployed"], row["underemployed"]), xytext=(5, 3),
-                    textcoords="offset points", fontsize=8, fontweight="normal")
-    ax.set_xlabel("Unemployed (%)")
-    ax.set_ylabel("Underemployed: job doesn't need a degree (%)")
-    ax.set_title("Young US graduates by major", loc="left", fontsize=15)
-    save(fig, "majors.png")
+    """Underemployment by major (US, bachelor's only, ages 22 to 27)."""
+    s_ = OUTCOMES["underemployed"](people)
+    weighted = (s_["underemployed"] * s_["weight"]).groupby(s_["major"]).sum()
+    rate = (weighted / s_["weight"].groupby(s_["major"]).sum() * 100).drop(index="Other", errors="ignore").sort_values()
+    fig, ax = plt.subplots(figsize=(8, 0.3 * len(rate) + 1.4))
+    ax.barh(rate.index, rate.values, color=CAROLINA, edgecolor=NAVY, linewidth=1.2, height=0.65)
+    for i, v in enumerate(rate.values):
+        ax.text(v + 1, i, f"{v:.0f}%", va="center", fontsize=10)
+    ax.set_xlim(0, 85)
+    ax.set_xlabel("% of employed graduates in a job that doesn't need a degree")
+    ax.margins(y=0.01)
+    ax.set_title("Underemployment by major", loc="left", fontsize=15)
+    save(fig, "majors.png", CENSUS_SOURCE + "Underemployed: working in an occupation whose typical "
+         "entry requirement is below a bachelor's degree.\n" + CENSUS_TOOLS)
+
+
+def grads_breakdown(people):
+    """What young US grads (bachelor's only) are doing: a horizontal bar chart."""
+    p = people[~(people["employed"] & people["degree_share"].isna())]  # ~1% with unmatched job codes
+    groups = {
+        "Job that needs a degree": p["employed"] & ~p["underemployed"],
+        "Job that doesn't need a degree": p["employed"] & p["underemployed"],
+        "In school, not working": ~p["employed"] & ~p["unemployed"] & ~p["neet"],
+        "Unemployed (looking)": p["unemployed"],
+        "Not working, not looking": p["neet"] & ~p["unemployed"],
+    }
+    shares = [np.average(mask, weights=p["weight"]) * 100 for mask in groups.values()]
+    colors = [GREY, CAROLINA, GREY, GREY, GREY]
+
+    fig, ax = plt.subplots(figsize=(8, 4.2))
+    y = np.arange(len(groups))[::-1]
+    ax.barh(y, shares, color=colors, edgecolor=NAVY, linewidth=1.5, height=0.6)
+    for yi, share in zip(y, shares):
+        ax.text(share + 1, yi, f"{share:.0f}%", va="center")
+    ax.set_yticks(y, list(groups))
+    ax.set_xlim(0, 60)
+    ax.set_xlabel("% of graduates aged 22 to 27")
+    ax.set_title("What young US graduates are doing", loc="left", fontsize=15)
+    save(fig, "grads_breakdown.png", CENSUS_SOURCE + "\n" + CENSUS_TOOLS)
 
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     wb = pd.read_csv(DATA / "worldbank_long.csv")
     people = prepare(pd.read_parquet(DATA / "pums_grads.parquet"))
-    neet_over_time(wb)
+    neet_by_country(wb)
     degree_protection(wb)
     majors(people[people["grad_degree"] == "No"])
+    grads_breakdown(people[people["grad_degree"] == "No"])
 
 
 if __name__ == "__main__":

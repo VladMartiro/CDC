@@ -22,10 +22,10 @@ RAW = DATA / "raw" / "pums"
 
 COLUMNS = [
     "SERIALNO", "ST", "STATE", "PWGTP", "AGEP", "SEX", "RAC1P", "HISP", "NATIVITY", "POBP",
-    "SCHL", "SCH", "FOD1P", "ESR", "SOCP", "OCCP", "WKHP", "COW", "MIL",
+    "SCHL", "SCH", "FOD1P", "FOD2P", "ESR", "SOCP", "OCCP", "WKHP", "COW", "MIL",
 ]
 NUMERIC = ["PWGTP", "AGEP", "SEX", "RAC1P", "HISP", "NATIVITY", "POBP", "SCHL", "SCH",
-           "FOD1P", "ESR", "OCCP", "WKHP", "COW", "MIL"]
+           "FOD1P", "FOD2P", "ESR", "OCCP", "WKHP", "COW", "MIL"]
 
 
 def download(year):

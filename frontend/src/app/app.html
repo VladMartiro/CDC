@@ -245,23 +245,40 @@
 
     <section class="data-section">
 
-      <div class="data-label">
-        YOUNG US COLLEGE GRADS WHO ARE UNDEREMPLOYED
+      <div class="stat-split">
+
+        <div>
+          <div class="data-label">
+            YOUNG US COLLEGE GRADS
+          </div>
+
+          <div class="big-stat hook-stat">
+            {{ model()?.outcomes?.['underemployed']?.national_rate ?? 43 | number: '1.0-0' }}%
+            <span>are underemployed</span>
+          </div>
+
+          <p class="data-description">
+            Share of employed graduates aged 22 to 27 whose job does not
+            typically require a bachelor's degree. Unemployment in the same group
+            is {{ model()?.outcomes?.['unemployed']?.national_rate ?? 4.8 }}%.
+          </p>
+
+          <p class="group-note">
+            "Doesn't require a degree" means the Bureau of Labor Statistics lists the typical
+            entry-level education for the occupation as less than a bachelor's degree. The most
+            common of these jobs among young graduates: customer service representative, retail
+            salesperson, server, and administrative assistant.
+          </p>
+
+        </div>
+
+        <img class="chart" src="charts/grads_breakdown.png"
+          alt="Bar chart of young US graduates: 48% in jobs that need a degree, 36% in jobs that don't, 7% in school, 4% unemployed, 4% not working or looking">
+
       </div>
 
-      <div class="big-stat">
-        {{ predictions()?.national?.['underemployed'] ?? 43 | number: '1.0-0' }}%
-      </div>
-
-      <p class="data-description">
-        Graduates aged 22–27 with a bachelor's degree working a job that
-        typically doesn't require one. Only
-        {{ predictions()?.national?.['unemployed'] ?? 4.8 }}% are unemployed —
-        the bigger risk is ending up in the wrong job.
-      </p>
 
     </section>
-
 
 
     <!-- ODDS CALCULATOR -->
@@ -272,7 +289,7 @@
         WHAT ARE YOUR ODDS AT 24?
       </div>
 
-      <div class="odds-form" *ngIf="predictions() as data; else loadingOdds">
+      <div class="odds-form" *ngIf="model() as data; else loadingOdds">
 
         <label class="odds-field" *ngFor="let field of profileFields">
           <span>{{ field.label }}</span>
@@ -281,7 +298,7 @@
             (change)="setProfile(field.key, $any($event.target).value)"
           >
             <option
-              *ngFor="let option of data.dims[field.key]"
+              *ngFor="let option of options(data, field.key)"
               [value]="option"
               [selected]="option === profile()[field.key]"
             >{{ option }}</option>
@@ -291,32 +308,43 @@
       </div>
 
       <ng-template #loadingOdds>
-        <p class="chart-note">Loading the model…</p>
+        <p class="chart-note" *ngIf="!modelFailed()">
+          <span class="spinner" aria-hidden="true"></span> Loading the model…
+        </p>
+        <p class="chart-note" *ngIf="modelFailed()">
+          The model could not be loaded. <button class="retry" (click)="loadModel()">Try again</button>
+        </p>
       </ng-template>
 
       <div class="odds-grid" *ngIf="myOdds() as odds">
         <div class="odds-card">
-          <strong>{{ odds.unemployed }}%</strong>
+          <strong>{{ odds.unemployed | number: '1.1-1' }}%</strong>
           <span>UNEMPLOYED</span>
         </div>
         <div class="odds-card">
-          <strong>{{ odds.neet }}%</strong>
+          <strong>{{ odds.neet | number: '1.1-1' }}%</strong>
           <span>NEET</span>
         </div>
         <div class="odds-card">
-          <strong>{{ odds.underemployed }}%</strong>
+          <strong>{{ odds.underemployed | number: '1.1-1' }}%</strong>
           <span>UNDEREMPLOYED</span>
         </div>
       </div>
+
+      <p class="group-note" *ngIf="myOdds()">
+        Based on group statistics. These numbers describe graduates with backgrounds similar to
+        the one entered, not any one person. Individual outcomes depend on many things this data
+        does not capture.
+      </p>
 
       <div class="what-if" *ngIf="bornElsewhereOdds() as other">
         <div class="section-heading">
           WHAT IF YOU {{ profile().born_us === 'Yes' ? "WEREN'T" : 'WERE' }} BORN IN THE US?
         </div>
         <p class="what-if-row">
-          Unemployed <b>{{ other.unemployed }}%</b> ·
-          NEET <b>{{ other.neet }}%</b> ·
-          Underemployed <b>{{ other.underemployed }}%</b>
+          Unemployed <b>{{ other.unemployed | number: '1.1-1' }}%</b> ·
+          NEET <b>{{ other.neet | number: '1.1-1' }}%</b> ·
+          Underemployed <b>{{ other.underemployed | number: '1.1-1' }}%</b>
         </p>
       </div>
 
@@ -328,7 +356,7 @@
             (change)="compareState.set($any($event.target).value)"
           >
             <option
-              *ngFor="let state of predictions()?.dims?.state"
+              *ngFor="let state of model()?.categories?.['state']"
               [value]="state"
               [selected]="state === compareState()"
             >{{ state }}</option>
@@ -336,20 +364,101 @@
           ?
         </div>
         <p class="what-if-row">
-          Unemployed <b>{{ other.unemployed }}%</b> ·
-          NEET <b>{{ other.neet }}%</b> ·
-          Underemployed <b>{{ other.underemployed }}%</b>
+          Unemployed <b>{{ other.unemployed | number: '1.1-1' }}%</b> ·
+          NEET <b>{{ other.neet | number: '1.1-1' }}%</b> ·
+          Underemployed <b>{{ other.underemployed | number: '1.1-1' }}%</b>
         </p>
       </div>
 
-      <p class="chart-note">
-        Odds for a 24-year-old with a bachelor's degree, from a gradient-boosting model
-        trained on 296,685 US graduates (Census ACS 2019–2023). These are odds for
-        people like you, not a prediction about you.
+      <p class="source-note">
+        Estimated probabilities for a 24-year-old college graduate.
+        Model: gradient-boosted classifier (scikit-learn), one per outcome, validated on held-out
+        households, running live in your browser. Source: US Census Bureau, American Community Survey 1-year PUMS, 2019 and
+        2021–2023 (296,685 graduates aged 22 to 27); BLS Employment Projections, Table 1.2.
       </p>
 
-    </section>
+      <details class="hood">
 
+        <summary>Behind the scenes: how the model works</summary>
+
+        <div class="hood-body">
+
+          <img class="hood-img" src="model-code.png"
+            alt="Python code defining the two models: a logistic regression baseline and a histogram gradient-boosting classifier with 400 trees of depth 4">
+
+          <p class="hood-text">
+            The odds above come from a gradient-boosted decision tree classifier, the same family
+            of models as XGBoost. It builds small decision trees one after another (118 to 242
+            per outcome, stopping once new trees no longer improve accuracy). Each tree
+            asks a few yes-or-no questions about a graduate, such as whether they studied
+            engineering or live in California, and corrects the errors of the trees before it.
+            Together, the trees produce a probability for each outcome.
+          </p>
+
+          <p class="hood-text">
+            Gradient boosting is one of the most widely used methods for data organized in rows
+            and columns, like survey records, where it routinely matches or beats more complex
+            approaches. We trained one model per outcome on 296,685 graduates and tested it on
+            households it had never seen. Its estimates are well calibrated: when it predicts
+            10%, about 10% of those graduates actually had that outcome. As a check, we also
+            trained a simpler logistic regression; the two models scored within 0.01 AUC of
+            each other, so the results do not depend on the choice of model.
+          </p>
+
+          <table class="hood-table">
+            <tr><th>Outcome</th><th>AUC</th><th>Avg. calibration error</th></tr>
+            <tr><td>Unemployed</td><td>0.66</td><td>0.3 pts</td></tr>
+            <tr><td>NEET</td><td>0.63</td><td>0.3 pts</td></tr>
+            <tr><td>Underemployed</td><td>0.69</td><td>1.1 pts</td></tr>
+          </table>
+
+          <p class="hood-text">
+            Measured on households held out from training (about 1 in 5). AUC is the chance the
+            model ranks a graduate who had the outcome above one who did not: 0.5 is a coin flip,
+            1.0 is perfect. Calibration error is the average gap between predicted and actual
+            rates. We do not report plain accuracy: with only 5% of graduates unemployed, a model
+            that always answers "employed" would be 95% accurate and useless. Background
+            characteristics explain part of the risk, not all of it, which is why the model
+            gives odds rather than verdicts.
+          </p>
+
+          <p class="hood-text">
+            <b>Fairness check.</b> A model can be accurate overall and still be wrong for one group.
+            For each group below, we compared the model's average prediction with what actually
+            happened on the held-out households (predicted / actual, %).
+          </p>
+
+          <table class="hood-table">
+            <tr><th>Group</th><th>Unemployed</th><th>NEET</th><th>Underemployed</th></tr>
+            <tr *ngFor="let row of fairnessRows()">
+              <td>{{ row.label }}</td>
+              <td *ngFor="let cell of row.cells">
+                {{ cell.predicted * 100 | number: '1.1-1' }} / {{ cell.actual * 100 | number: '1.1-1' }}
+              </td>
+            </tr>
+          </table>
+
+          <p class="hood-text">
+            Most gaps are under 1 point. The largest:
+            <ng-container *ngFor="let g of largestGaps(); let last = last">
+              {{ g.outcome === 'neet' ? 'NEET' : g.outcome }} for {{ g.row.group === 'No' ? 'graduates born abroad' : g.row.group + ' graduates' }}
+              ({{ g.row.predicted * 100 | number: '1.1-1' }}% predicted,
+              {{ g.row.actual * 100 | number: '1.1-1' }}% actual){{ last ? '.' : ';' }}
+            </ng-container>
+            Where the model predicts too low, the real risk is likely somewhat higher than the
+            calculator shows.
+          </p>
+
+          <p class="hood-text">
+            This is machine learning, not generative AI. The model does not write text or make
+            up answers. It learns patterns from real Census records and returns a probability.
+          </p>
+
+        </div>
+
+      </details>
+
+    </section>
 
 
     <!-- TREND CHART -->
@@ -357,21 +466,19 @@
     <section class="data-section">
 
       <div class="section-heading">
-        NEET RATE OVER TIME
+        YOUTH NEET RATE BY COUNTRY
       </div>
 
       <img class="chart" src="charts/neet_americas.png"
-        alt="Youth NEET rate across the Americas, 2005–2025">
+        alt="Bar chart of youth NEET rates by country in the Americas, 2025">
 
       <p class="data-description">
-        Across the Americas, 1 in 4 young people in some countries are not in
-        education, employment, or training. The 2020 spike is COVID.
+        Youth NEET rates range from 8% in Bolivia to 43% in Guyana. At 12%, the
+        United States is among the lowest in the Americas.
       </p>
 
-      <p class="chart-note">Source: World Bank, SL.UEM.NEET.ME.ZS (ILO modelled estimate).</p>
 
     </section>
-
 
 
     <!-- DEGREE PROTECTION -->
@@ -383,18 +490,16 @@
       </div>
 
       <img class="chart" src="charts/degree_unemployment.png"
-        alt="Unemployment for everyone vs university graduates by country">
+        alt="Bar chart of the gap between graduate unemployment and overall unemployment by country">
 
       <p class="data-description">
-        In most countries a degree lowers unemployment — but not everywhere.
-        In Haiti, Ecuador, Nicaragua, Bolivia and Mexico, graduates are
-        <i>more</i> likely to be unemployed than the average worker.
+        A university degree lowers unemployment in most of the region, but not all of it.
+        In 10 of 30 countries, graduates are more likely to be unemployed than the workforce
+        as a whole. Haiti has the widest gap, at 11.9 percentage points.
       </p>
 
-      <p class="chart-note">Source: World Bank, SL.UEM.TOTL.ZS and SL.UEM.ADVN.ZS (latest year).</p>
 
     </section>
-
 
 
     <!-- MAJORS -->
@@ -406,145 +511,52 @@
       </div>
 
       <img class="chart" src="charts/majors.png"
-        alt="Unemployment vs underemployment by major for young US graduates">
+        alt="Bar chart of underemployment by major for young US graduates">
 
       <p class="data-description">
-        Computer science grads face higher unemployment but rarely end up in jobs
-        that don't need a degree. Criminal justice is the opposite.
+        Criminal justice has the highest underemployment, at 71%. Education, computer
+        science and engineering have the lowest, at about 22%.
       </p>
 
-      <p class="chart-note">Source: Census ACS PUMS 2019–2023, ages 22–27, bachelor's only; BLS Table 1.2.</p>
+
+    </section>
+
+
+    <!-- REFERENCES -->
+
+    <section class="data-section">
+
+      <div class="section-heading">
+        REFERENCES
+      </div>
+
+      <ul class="references">
+        <li>Federal Reserve Bank of New York. (2026). <i>The labor market for recent college
+          graduates</i>. https://www.newyorkfed.org/research/college-labor-market</li>
+        <li>U.S. Bureau of Labor Statistics. (2026). <i>Occupational projections and worker
+          characteristics</i> (Employment Projections, Table 1.2) [Data set].
+          https://www.bls.gov/emp/tables.htm</li>
+        <li>U.S. Census Bureau. (2020–2024). <i>American Community Survey 1-year Public Use
+          Microdata Sample, 2019 and 2021–2023</i> [Data set].
+          https://www.census.gov/programs-surveys/acs/microdata.html</li>
+        <li>World Bank. (2026). <i>World Development Indicators</i> (SL.UEM.NEET.ME.ZS,
+          SL.UEM.TOTL.ZS, SL.UEM.ADVN.ZS) [Data set]. Retrieved September 26, 2026, from
+          https://api.worldbank.org/v2</li>
+      </ul>
 
     </section>
 
 
 
-    <!-- FACTORS -->
+    <!-- SUBIN'S ANALYSIS -->
 
     <section class="data-section">
 
       <div class="section-heading">
-        WHAT CAN SHAPE THE TRANSITION
-        FROM SCHOOL TO WORK?
+        SUBIN'S ANALYSIS
       </div>
 
-
-      <div class="factor-list">
-
-        <div class="factor">
-
-          <span>
-            JOB ACCESS
-          </span>
-
-          <strong>
-            01
-          </strong>
-
-        </div>
-
-
-        <div class="factor">
-
-          <span>
-            EDUCATION
-          </span>
-
-          <strong>
-            02
-          </strong>
-
-        </div>
-
-
-        <div class="factor">
-
-          <span>
-            MENTAL HEALTH
-          </span>
-
-          <strong>
-            03
-          </strong>
-
-        </div>
-
-
-        <div class="factor">
-
-          <span>
-            ECONOMIC CONDITIONS
-          </span>
-
-          <strong>
-            04
-          </strong>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-
-    <!-- COUNTRY COMPARISON -->
-
-    <section class="data-section">
-
-      <div class="section-heading">
-        YOUTH NEET RATE, 2025
-      </div>
-
-      <div class="country-card">
-        <div>
-          <span class="country-name">UNITED STATES</span>
-          <span class="country-stat">11.7%</span>
-        </div>
-      </div>
-
-      <div class="country-card">
-        <div>
-          <span class="country-name">MEXICO</span>
-          <span class="country-stat">16.0%</span>
-        </div>
-      </div>
-
-      <div class="country-card">
-        <div>
-          <span class="country-name">HONDURAS</span>
-          <span class="country-stat">30.8%</span>
-        </div>
-      </div>
-
-      <p class="chart-note">Source: World Bank, SL.UEM.NEET.ME.ZS, ages 15–24.</p>
-
-    </section>
-
-
-
-    <!-- ABOUT THE DATA -->
-
-    <section class="data-section">
-
-      <div class="section-heading">
-        ABOUT THE DATA
-      </div>
-
-      <p class="data-description">
-        <b>Unemployed:</b> looking for work but without a job.
-        <b>NEET:</b> not in employment, education, or training.
-        <b>Underemployed:</b> working a job whose typical entry requirement is
-        below a bachelor's degree.
-      </p>
-
-      <ol class="references">
-        <li>World Bank, World Development Indicators, EdStats, JOIN — api.worldbank.org</li>
-        <li>US Census Bureau, American Community Survey 1-year PUMS, 2019–2023</li>
-        <li>US Bureau of Labor Statistics, Employment Projections Table 1.2 (typical entry education)</li>
-        <li>Federal Reserve Bank of New York, The Labor Market for Recent College Graduates</li>
-        <li>International Labour Organization, ILOSTAT — NEET rate by sex and education</li>
-      </ol>
+      <!-- Subin: add your analysis here -->
 
     </section>
 
