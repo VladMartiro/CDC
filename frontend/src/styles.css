@@ -17,7 +17,7 @@ body {
 }
 
 button {
-  font-family: times new roman, serif;
+  font-family: Times New Roman, sans-serif;
 }
 
 
@@ -51,7 +51,7 @@ button {
   background: var(--white);
   color: var(--navy);
 
-  font: inherit;
+  font: Times New Roman, sans-serif;
   font-size: 16px;
   font-weight: 800;
   letter-spacing: 0;

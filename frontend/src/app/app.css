@@ -173,11 +173,10 @@ h2 {
 
 .consequence {
   margin: 30px auto 0;
-
   max-width: 520px;
 
   font-size: 17px;
-  font-weight: 600;
+  font-weight: 300;
 
   line-height: 1.5;
 }

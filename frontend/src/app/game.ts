@@ -153,14 +153,14 @@ export interface FactContext {
   choice: string;
   choices: Choices;
   data: GameData;
-  deltas: Record<string, number>;  // per option: score (points) with that option minus score before deciding
+  deltas: Record<string, number>;  // per option: score (%) with that option minus score before deciding
   rates: { unemployed: number; underemployed: number };
 }
 
-const pts = (x: number) => `${x >= 0 ? '+' : ''}${(x ?? 0).toFixed(1)} points`;
+const pts = (x: number) => `${x >= 0 ? '+' : ''}${(x ?? 0).toFixed(1)}%`;
 const ptsPhrase = (x: number) => x >= 0.05
-  ? `raises your chances by ${x.toFixed(1)} points`
-  : x <= -0.05 ? `shifts your chances by ${x.toFixed(1)} points` : 'keeps your chances about the same';
+  ? `raises your chances by ${x.toFixed(1)}%`
+  : x <= -0.05 ? `shifts your chances by ${x.toFixed(1)}%` : 'keeps your chances about the same';
 
 export const DECISIONS: Decision[] = [
   {
@@ -179,7 +179,7 @@ export const DECISIONS: Decision[] = [
     when: 'FRESHMAN SPRING',
     text: 'You need one more elective.',
     options: [
-      { label: 'A CHALLENGING MACHINE LEARNING CLASS', value: 'challenge' },
+      { label: 'A CHALLENGING MACHINE LEARNING (AI) CLASS', value: 'challenge' },
       { label: 'A CLASS YOU KNOW YOU WILL ACE', value: 'easy' }
     ],
     affectsScore: false,
@@ -246,7 +246,7 @@ export const DECISIONS: Decision[] = [
     ],
     affectsScore: true,
     fact: ({ choice, deltas }) => choice === 'home'
-      ? `Staying close to home matters to a lot of people: 84% of graduates say cost of living shapes whether they would move (NACE 2024). For comparison, a national search ${ptsPhrase(deltas['anywhere'])} in our model.`
+      ? `Staying close to home matters to a lot of people: 84% of graduates say cost of living shapes whether they would move (NACE 2024).`
       : `Averaged over where graduates actually live, a national search ${ptsPhrase(deltas['anywhere'])} compared with staying in North Carolina (our model).`
   },
   {
@@ -277,7 +277,7 @@ export const DECISIONS: Decision[] = [
   }
 ];
 
-/* Score change (points) for each option of a decision, vs. the score before deciding. */
+/* Score change (%) for each option of a decision, vs. the score before deciding. */
 export function optionDeltas(model: ModelFile, data: GameData, c: Choices, d: Decision): Record<string, number> {
   if (!d.affectsScore || d.key === 'major' || d.key === 'offer') {
     return {};
