@@ -56,7 +56,7 @@ STATES = {
     53: "Washington", 54: "West Virginia", 55: "Wisconsin", 56: "Wyoming", 72: "Puerto Rico",
 }
 
-CATEGORICAL = ["major", "sex", "race", "born_us", "state", "grad_degree", "year"]
+CATEGORICAL = ["major", "second_major", "sex", "race", "born_us", "state", "moved_states", "grad_degree", "year"]
 NUMERIC = ["age"]
 FEATURES = CATEGORICAL + NUMERIC
 
@@ -94,12 +94,15 @@ def prepare(df):
         [df["HISP"] > 1, df["RAC1P"] == 1, df["RAC1P"] == 2, df["RAC1P"] == 6],
         ["Hispanic", "White", "Black", "Asian"], "Other / Multiracial",
     )
+    us_born_elsewhere = (df["NATIVITY"] == 1) & (df["POBP"] <= 56) & (df["POBP"] != df["ST"])
     out = pd.DataFrame({
         "major": df["FOD1P"].astype("Int64").astype(str).str[:2].map(MAJOR_GROUPS).fillna("Other"),
+        "second_major": df["FOD2P"].astype("Int64").astype(str).str[:2].map(MAJOR_GROUPS).fillna("None"),
         "sex": df["SEX"].map({1: "Male", 2: "Female"}),
         "race": race,
         "born_us": df["NATIVITY"].map({1: "Yes", 2: "No"}),
         "state": df["ST"].map(STATES),
+        "moved_states": np.where(us_born_elsewhere, "Yes", "No"),  # lives outside the state they were born in
         "grad_degree": np.where(df["SCHL"] >= 22, "Yes", "No"),
         "year": df["year"].astype(str),
         "age": df["AGEP"],
@@ -153,6 +156,25 @@ def calibration_table(y, p, w, bins=10):
     ]
 
 
+FAIRNESS_GROUPS = ["race", "sex", "born_us"]
+
+
+def fairness_table(test, y, p, w):
+    """Per-group predicted vs actual rate and AUC on held-out data (calibration-in-the-large by group)."""
+    rows = []
+    for col in FAIRNESS_GROUPS:
+        for group in sorted(test[col].unique()):
+            mask = (test[col] == group).to_numpy()
+            yg, pg, wg = y[mask], p[mask], w[mask]
+            rows.append({
+                "attribute": col, "group": group, "n": int(mask.sum()),
+                "predicted": round(float(np.average(pg, weights=wg)), 4),
+                "actual": round(float(np.average(yg, weights=wg)), 4),
+                "auc": round(roc_auc_score(yg, pg, sample_weight=wg), 4) if 0 < yg.sum() < len(yg) else None,
+            })
+    return rows
+
+
 def main():
     data = prepare(pd.read_parquet(DATA / "pums_grads.parquet"))
     metrics = {"rows": len(data), "years": sorted(data["year"].unique().tolist()), "outcomes": {}}
@@ -178,6 +200,7 @@ def main():
                 "brier_baseline": round(brier_score_loss(yt, np.full_like(p, base), sample_weight=wt), 5),
                 "log_loss": round(log_loss(yt, p, sample_weight=wt), 5),
                 "calibration": calibration_table(yt, p, wt),
+                "fairness": fairness_table(d.iloc[test], yt, p, wt),
             }
             result["models"][name] = m
             print(f"  {name:<20} AUC={m['auc']:.3f}  Brier={m['brier']:.4f} (baseline {m['brier_baseline']:.4f})")

@@ -18,98 +18,246 @@
       },
       "models": {
         "logistic_regression": {
-          "auc": 0.6662,
-          "brier": 0.04313,
+          "auc": 0.666,
+          "brier": 0.04314,
           "brier_baseline": 0.0439,
-          "log_loss": 0.17884,
+          "log_loss": 0.17885,
           "calibration": [
             {
-              "predicted": 0.0145,
-              "actual": 0.0189
+              "predicted": 0.0139,
+              "actual": 0.0181
             },
             {
-              "predicted": 0.0209,
-              "actual": 0.0179
+              "predicted": 0.0204,
+              "actual": 0.0176
             },
             {
-              "predicted": 0.0257,
-              "actual": 0.0256
+              "predicted": 0.0253,
+              "actual": 0.0272
             },
             {
-              "predicted": 0.0306,
-              "actual": 0.0303
+              "predicted": 0.0303,
+              "actual": 0.0288
             },
             {
-              "predicted": 0.0358,
-              "actual": 0.0364
+              "predicted": 0.0357,
+              "actual": 0.038
             },
             {
-              "predicted": 0.0417,
-              "actual": 0.0394
+              "predicted": 0.0416,
+              "actual": 0.038
             },
             {
               "predicted": 0.049,
-              "actual": 0.0452
+              "actual": 0.0476
             },
             {
-              "predicted": 0.0582,
-              "actual": 0.0599
+              "predicted": 0.0583,
+              "actual": 0.0573
             },
             {
-              "predicted": 0.0718,
-              "actual": 0.0719
+              "predicted": 0.0725,
+              "actual": 0.0747
             },
             {
-              "predicted": 0.1065,
-              "actual": 0.1105
+              "predicted": 0.108,
+              "actual": 0.109
+            }
+          ],
+          "fairness": [
+            {
+              "attribute": "race",
+              "group": "Asian",
+              "n": 5934,
+              "predicted": 0.0539,
+              "actual": 0.0599,
+              "auc": 0.6512
+            },
+            {
+              "attribute": "race",
+              "group": "Black",
+              "n": 2965,
+              "predicted": 0.069,
+              "actual": 0.0678,
+              "auc": 0.5975
+            },
+            {
+              "attribute": "race",
+              "group": "Hispanic",
+              "n": 6890,
+              "predicted": 0.0564,
+              "actual": 0.0524,
+              "auc": 0.6314
+            },
+            {
+              "attribute": "race",
+              "group": "Other / Multiracial",
+              "n": 2699,
+              "predicted": 0.0557,
+              "actual": 0.0532,
+              "auc": 0.6418
+            },
+            {
+              "attribute": "race",
+              "group": "White",
+              "n": 33767,
+              "predicted": 0.0384,
+              "actual": 0.0389,
+              "auc": 0.6714
+            },
+            {
+              "attribute": "sex",
+              "group": "Female",
+              "n": 29724,
+              "predicted": 0.0413,
+              "actual": 0.0398,
+              "auc": 0.6528
+            },
+            {
+              "attribute": "sex",
+              "group": "Male",
+              "n": 22531,
+              "predicted": 0.0519,
+              "actual": 0.0542,
+              "auc": 0.6694
+            },
+            {
+              "attribute": "born_us",
+              "group": "No",
+              "n": 5442,
+              "predicted": 0.053,
+              "actual": 0.0493,
+              "auc": 0.6376
+            },
+            {
+              "attribute": "born_us",
+              "group": "Yes",
+              "n": 46813,
+              "predicted": 0.0451,
+              "actual": 0.0456,
+              "auc": 0.669
             }
           ]
         },
         "gradient_boosting": {
-          "auc": 0.6611,
-          "brier": 0.04324,
+          "auc": 0.6616,
+          "brier": 0.04325,
           "brier_baseline": 0.0439,
-          "log_loss": 0.17948,
+          "log_loss": 0.17957,
           "calibration": [
             {
-              "predicted": 0.0144,
-              "actual": 0.0158
+              "predicted": 0.0128,
+              "actual": 0.0163
             },
             {
-              "predicted": 0.0208,
-              "actual": 0.0226
+              "predicted": 0.0194,
+              "actual": 0.0209
             },
             {
-              "predicted": 0.0256,
-              "actual": 0.0257
+              "predicted": 0.0244,
+              "actual": 0.0266
             },
             {
-              "predicted": 0.0305,
-              "actual": 0.032
+              "predicted": 0.0296,
+              "actual": 0.0319
             },
             {
-              "predicted": 0.0359,
-              "actual": 0.0333
+              "predicted": 0.0351,
+              "actual": 0.0359
             },
             {
-              "predicted": 0.0419,
-              "actual": 0.0434
+              "predicted": 0.0412,
+              "actual": 0.0377
             },
             {
-              "predicted": 0.0489,
-              "actual": 0.0487
+              "predicted": 0.0487,
+              "actual": 0.0462
             },
             {
-              "predicted": 0.058,
-              "actual": 0.0553
+              "predicted": 0.0584,
+              "actual": 0.0603
             },
             {
-              "predicted": 0.0718,
-              "actual": 0.0775
+              "predicted": 0.0732,
+              "actual": 0.0793
             },
             {
-              "predicted": 0.109,
-              "actual": 0.1029
+              "predicted": 0.1123,
+              "actual": 0.1021
+            }
+          ],
+          "fairness": [
+            {
+              "attribute": "race",
+              "group": "Asian",
+              "n": 5934,
+              "predicted": 0.0539,
+              "actual": 0.0599,
+              "auc": 0.6179
+            },
+            {
+              "attribute": "race",
+              "group": "Black",
+              "n": 2965,
+              "predicted": 0.067,
+              "actual": 0.0678,
+              "auc": 0.6315
+            },
+            {
+              "attribute": "race",
+              "group": "Hispanic",
+              "n": 6890,
+              "predicted": 0.0558,
+              "actual": 0.0524,
+              "auc": 0.6459
+            },
+            {
+              "attribute": "race",
+              "group": "Other / Multiracial",
+              "n": 2699,
+              "predicted": 0.0544,
+              "actual": 0.0532,
+              "auc": 0.5929
+            },
+            {
+              "attribute": "race",
+              "group": "White",
+              "n": 33767,
+              "predicted": 0.0388,
+              "actual": 0.0389,
+              "auc": 0.6632
+            },
+            {
+              "attribute": "sex",
+              "group": "Female",
+              "n": 29724,
+              "predicted": 0.0422,
+              "actual": 0.0398,
+              "auc": 0.6504
+            },
+            {
+              "attribute": "sex",
+              "group": "Male",
+              "n": 22531,
+              "predicted": 0.0506,
+              "actual": 0.0542,
+              "auc": 0.664
+            },
+            {
+              "attribute": "born_us",
+              "group": "No",
+              "n": 5442,
+              "predicted": 0.0518,
+              "actual": 0.0493,
+              "auc": 0.6141
+            },
+            {
+              "attribute": "born_us",
+              "group": "Yes",
+              "n": 46813,
+              "predicted": 0.0452,
+              "actual": 0.0456,
+              "auc": 0.6663
             }
           ]
         }
@@ -126,98 +274,246 @@
       },
       "models": {
         "logistic_regression": {
-          "auc": 0.6201,
-          "brier": 0.06242,
+          "auc": 0.6212,
+          "brier": 0.0624,
           "brier_baseline": 0.06312,
-          "log_loss": 0.24214,
+          "log_loss": 0.24204,
           "calibration": [
             {
-              "predicted": 0.0317,
-              "actual": 0.0307
+              "predicted": 0.0305,
+              "actual": 0.0302
             },
             {
-              "predicted": 0.0419,
-              "actual": 0.0376
+              "predicted": 0.041,
+              "actual": 0.0402
             },
             {
-              "predicted": 0.0481,
-              "actual": 0.0479
+              "predicted": 0.0474,
+              "actual": 0.0444
             },
             {
-              "predicted": 0.0538,
-              "actual": 0.0563
+              "predicted": 0.0533,
+              "actual": 0.0572
             },
             {
-              "predicted": 0.0596,
-              "actual": 0.0596
+              "predicted": 0.0593,
+              "actual": 0.0564
             },
             {
-              "predicted": 0.0658,
-              "actual": 0.0631
+              "predicted": 0.0657,
+              "actual": 0.0638
             },
             {
-              "predicted": 0.073,
-              "actual": 0.0758
+              "predicted": 0.0733,
+              "actual": 0.0795
             },
             {
-              "predicted": 0.0823,
-              "actual": 0.084
+              "predicted": 0.0829,
+              "actual": 0.0829
             },
             {
-              "predicted": 0.0956,
-              "actual": 0.0993
+              "predicted": 0.0967,
+              "actual": 0.0963
             },
             {
-              "predicted": 0.1295,
-              "actual": 0.1215
+              "predicted": 0.1306,
+              "actual": 0.1242
+            }
+          ],
+          "fairness": [
+            {
+              "attribute": "race",
+              "group": "Asian",
+              "n": 7456,
+              "predicted": 0.0899,
+              "actual": 0.0849,
+              "auc": 0.5865
+            },
+            {
+              "attribute": "race",
+              "group": "Black",
+              "n": 3358,
+              "predicted": 0.0871,
+              "actual": 0.1031,
+              "auc": 0.5552
+            },
+            {
+              "attribute": "race",
+              "group": "Hispanic",
+              "n": 7851,
+              "predicted": 0.087,
+              "actual": 0.084,
+              "auc": 0.6018
+            },
+            {
+              "attribute": "race",
+              "group": "Other / Multiracial",
+              "n": 3164,
+              "predicted": 0.0784,
+              "actual": 0.083,
+              "auc": 0.5752
+            },
+            {
+              "attribute": "race",
+              "group": "White",
+              "n": 37544,
+              "predicted": 0.0568,
+              "actual": 0.0548,
+              "auc": 0.6106
+            },
+            {
+              "attribute": "sex",
+              "group": "Female",
+              "n": 33812,
+              "predicted": 0.0711,
+              "actual": 0.0712,
+              "auc": 0.63
+            },
+            {
+              "attribute": "sex",
+              "group": "Male",
+              "n": 25561,
+              "predicted": 0.0646,
+              "actual": 0.0631,
+              "auc": 0.6072
+            },
+            {
+              "attribute": "born_us",
+              "group": "No",
+              "n": 6975,
+              "predicted": 0.1099,
+              "actual": 0.1054,
+              "auc": 0.58
+            },
+            {
+              "attribute": "born_us",
+              "group": "Yes",
+              "n": 52398,
+              "predicted": 0.0629,
+              "actual": 0.0628,
+              "auc": 0.6115
             }
           ]
         },
         "gradient_boosting": {
-          "auc": 0.6246,
-          "brier": 0.06226,
+          "auc": 0.6255,
+          "brier": 0.06224,
           "brier_baseline": 0.06312,
-          "log_loss": 0.24155,
+          "log_loss": 0.24129,
           "calibration": [
             {
-              "predicted": 0.026,
-              "actual": 0.0336
+              "predicted": 0.0276,
+              "actual": 0.0321
             },
             {
-              "predicted": 0.0373,
-              "actual": 0.0427
+              "predicted": 0.0384,
+              "actual": 0.0406
             },
             {
-              "predicted": 0.0449,
-              "actual": 0.0414
+              "predicted": 0.0456,
+              "actual": 0.0456
             },
             {
-              "predicted": 0.0518,
-              "actual": 0.0552
+              "predicted": 0.0525,
+              "actual": 0.0507
             },
             {
-              "predicted": 0.0585,
-              "actual": 0.0539
+              "predicted": 0.0592,
+              "actual": 0.0537
             },
             {
-              "predicted": 0.0655,
-              "actual": 0.0604
+              "predicted": 0.0659,
+              "actual": 0.0664
             },
             {
-              "predicted": 0.0735,
-              "actual": 0.079
+              "predicted": 0.0736,
+              "actual": 0.0789
             },
             {
-              "predicted": 0.0833,
-              "actual": 0.0838
+              "predicted": 0.083,
+              "actual": 0.0818
             },
             {
-              "predicted": 0.0974,
-              "actual": 0.0955
+              "predicted": 0.0968,
+              "actual": 0.0935
             },
             {
-              "predicted": 0.1418,
-              "actual": 0.1308
+              "predicted": 0.138,
+              "actual": 0.1328
+            }
+          ],
+          "fairness": [
+            {
+              "attribute": "race",
+              "group": "Asian",
+              "n": 7456,
+              "predicted": 0.0901,
+              "actual": 0.0849,
+              "auc": 0.6313
+            },
+            {
+              "attribute": "race",
+              "group": "Black",
+              "n": 3358,
+              "predicted": 0.0826,
+              "actual": 0.1031,
+              "auc": 0.5538
+            },
+            {
+              "attribute": "race",
+              "group": "Hispanic",
+              "n": 7851,
+              "predicted": 0.0867,
+              "actual": 0.084,
+              "auc": 0.6144
+            },
+            {
+              "attribute": "race",
+              "group": "Other / Multiracial",
+              "n": 3164,
+              "predicted": 0.0775,
+              "actual": 0.083,
+              "auc": 0.5625
+            },
+            {
+              "attribute": "race",
+              "group": "White",
+              "n": 37544,
+              "predicted": 0.0573,
+              "actual": 0.0548,
+              "auc": 0.6125
+            },
+            {
+              "attribute": "sex",
+              "group": "Female",
+              "n": 33812,
+              "predicted": 0.0707,
+              "actual": 0.0712,
+              "auc": 0.6316
+            },
+            {
+              "attribute": "sex",
+              "group": "Male",
+              "n": 25561,
+              "predicted": 0.0648,
+              "actual": 0.0631,
+              "auc": 0.615
+            },
+            {
+              "attribute": "born_us",
+              "group": "No",
+              "n": 6975,
+              "predicted": 0.1072,
+              "actual": 0.1054,
+              "auc": 0.6364
+            },
+            {
+              "attribute": "born_us",
+              "group": "Yes",
+              "n": 52398,
+              "predicted": 0.0631,
+              "actual": 0.0628,
+              "auc": 0.6118
             }
           ]
         }
@@ -234,98 +530,246 @@
       },
       "models": {
         "logistic_regression": {
-          "auc": 0.6834,
-          "brier": 0.21648,
+          "auc": 0.6863,
+          "brier": 0.2158,
           "brier_baseline": 0.23995,
-          "log_loss": 0.62193,
+          "log_loss": 0.62043,
           "calibration": [
             {
-              "predicted": 0.1398,
-              "actual": 0.1652
+              "predicted": 0.135,
+              "actual": 0.1599
             },
             {
-              "predicted": 0.2145,
-              "actual": 0.1881
+              "predicted": 0.2125,
+              "actual": 0.1934
             },
             {
-              "predicted": 0.2624,
-              "actual": 0.2428
+              "predicted": 0.2623,
+              "actual": 0.2342
             },
             {
-              "predicted": 0.319,
-              "actual": 0.3291
+              "predicted": 0.316,
+              "actual": 0.3254
             },
             {
-              "predicted": 0.3757,
-              "actual": 0.4018
+              "predicted": 0.3716,
+              "actual": 0.3983
             },
             {
-              "predicted": 0.4221,
-              "actual": 0.4273
+              "predicted": 0.4195,
+              "actual": 0.4272
             },
             {
-              "predicted": 0.4635,
-              "actual": 0.4674
+              "predicted": 0.4633,
+              "actual": 0.4742
             },
             {
-              "predicted": 0.5049,
-              "actual": 0.5001
+              "predicted": 0.5072,
+              "actual": 0.5123
             },
             {
-              "predicted": 0.5522,
-              "actual": 0.5637
+              "predicted": 0.5577,
+              "actual": 0.5514
             },
             {
-              "predicted": 0.6456,
-              "actual": 0.6513
+              "predicted": 0.6534,
+              "actual": 0.659
+            }
+          ],
+          "fairness": [
+            {
+              "attribute": "race",
+              "group": "Asian",
+              "n": 5624,
+              "predicted": 0.3183,
+              "actual": 0.332,
+              "auc": 0.7027
+            },
+            {
+              "attribute": "race",
+              "group": "Black",
+              "n": 2606,
+              "predicted": 0.4724,
+              "actual": 0.4704,
+              "auc": 0.6323
+            },
+            {
+              "attribute": "race",
+              "group": "Hispanic",
+              "n": 6550,
+              "predicted": 0.4776,
+              "actual": 0.4742,
+              "auc": 0.653
+            },
+            {
+              "attribute": "race",
+              "group": "Other / Multiracial",
+              "n": 2550,
+              "predicted": 0.4252,
+              "actual": 0.4641,
+              "auc": 0.6728
+            },
+            {
+              "attribute": "race",
+              "group": "White",
+              "n": 32432,
+              "predicted": 0.3789,
+              "actual": 0.3805,
+              "auc": 0.6902
+            },
+            {
+              "attribute": "sex",
+              "group": "Female",
+              "n": 28408,
+              "predicted": 0.3916,
+              "actual": 0.3954,
+              "auc": 0.6836
+            },
+            {
+              "attribute": "sex",
+              "group": "Male",
+              "n": 21354,
+              "predicted": 0.4017,
+              "actual": 0.4054,
+              "auc": 0.6899
+            },
+            {
+              "attribute": "born_us",
+              "group": "No",
+              "n": 5210,
+              "predicted": 0.3789,
+              "actual": 0.3866,
+              "auc": 0.6995
+            },
+            {
+              "attribute": "born_us",
+              "group": "Yes",
+              "n": 44552,
+              "predicted": 0.3979,
+              "actual": 0.4012,
+              "auc": 0.6848
             }
           ]
         },
         "gradient_boosting": {
-          "auc": 0.6868,
-          "brier": 0.21535,
+          "auc": 0.6907,
+          "brier": 0.21436,
           "brier_baseline": 0.23995,
-          "log_loss": 0.61873,
+          "log_loss": 0.61656,
           "calibration": [
             {
-              "predicted": 0.1512,
-              "actual": 0.139
+              "predicted": 0.142,
+              "actual": 0.1377
             },
             {
-              "predicted": 0.1954,
-              "actual": 0.185
+              "predicted": 0.1936,
+              "actual": 0.1878
             },
             {
-              "predicted": 0.2458,
-              "actual": 0.2515
+              "predicted": 0.2435,
+              "actual": 0.2373
             },
             {
-              "predicted": 0.3204,
-              "actual": 0.3321
+              "predicted": 0.3109,
+              "actual": 0.337
             },
             {
-              "predicted": 0.3838,
-              "actual": 0.4077
+              "predicted": 0.381,
+              "actual": 0.3895
             },
             {
-              "predicted": 0.4255,
-              "actual": 0.446
+              "predicted": 0.4262,
+              "actual": 0.4638
             },
             {
-              "predicted": 0.4652,
-              "actual": 0.4693
+              "predicted": 0.4693,
+              "actual": 0.463
             },
             {
-              "predicted": 0.5067,
-              "actual": 0.5089
+              "predicted": 0.5119,
+              "actual": 0.5011
             },
             {
-              "predicted": 0.5595,
-              "actual": 0.5462
+              "predicted": 0.5646,
+              "actual": 0.5603
             },
             {
-              "predicted": 0.6534,
-              "actual": 0.6568
+              "predicted": 0.6604,
+              "actual": 0.6611
+            }
+          ],
+          "fairness": [
+            {
+              "attribute": "race",
+              "group": "Asian",
+              "n": 5624,
+              "predicted": 0.3265,
+              "actual": 0.332,
+              "auc": 0.7043
+            },
+            {
+              "attribute": "race",
+              "group": "Black",
+              "n": 2606,
+              "predicted": 0.4643,
+              "actual": 0.4704,
+              "auc": 0.6352
+            },
+            {
+              "attribute": "race",
+              "group": "Hispanic",
+              "n": 6550,
+              "predicted": 0.4771,
+              "actual": 0.4742,
+              "auc": 0.6548
+            },
+            {
+              "attribute": "race",
+              "group": "Other / Multiracial",
+              "n": 2550,
+              "predicted": 0.4239,
+              "actual": 0.4641,
+              "auc": 0.6742
+            },
+            {
+              "attribute": "race",
+              "group": "White",
+              "n": 32432,
+              "predicted": 0.379,
+              "actual": 0.3805,
+              "auc": 0.6945
+            },
+            {
+              "attribute": "sex",
+              "group": "Female",
+              "n": 28408,
+              "predicted": 0.3934,
+              "actual": 0.3954,
+              "auc": 0.6878
+            },
+            {
+              "attribute": "sex",
+              "group": "Male",
+              "n": 21354,
+              "predicted": 0.3997,
+              "actual": 0.4054,
+              "auc": 0.6945
+            },
+            {
+              "attribute": "born_us",
+              "group": "No",
+              "n": 5210,
+              "predicted": 0.3725,
+              "actual": 0.3866,
+              "auc": 0.7049
+            },
+            {
+              "attribute": "born_us",
+              "group": "Yes",
+              "n": 44552,
+              "predicted": 0.3988,
+              "actual": 0.4012,
+              "auc": 0.6891
             }
           ]
         }
