@@ -20,7 +20,7 @@
           DEGREE-JOB CHANCES
         </span>
         <strong>
-          {{ score() === null ? '—' : (score()! | number: '1.0-0') + '%' }}
+          {{ score() === null ? '-' : (score()! | number: '1.0-0') + '%' }}
         </strong>
       </div>
     </header>
@@ -64,6 +64,7 @@
       <section
         *ngFor="let d of visibleDecisions(); let i = index"
         class="scene question-scene"
+        [class.answered]="choices()[d.key] !== undefined"
         [id]="'decision-' + i"
       >
         <div class="content question-content">
@@ -84,6 +85,7 @@
               class="choice"
               [class.selected]="choices()[d.key] === option.value"
               [class.faded]="choices()[d.key] !== undefined && choices()[d.key] !== option.value"
+              [disabled]="choices()[d.key] !== undefined"
               (click)="choose(d, option.value)"
             >
               {{ option.label }}
@@ -93,6 +95,7 @@
           <ng-template #majorPicker>
             <select
               class="major-select"
+              [disabled]="!!choices().major"
               [value]="choices().major ?? ''"
               (change)="choose(d, $any($event.target).value)"
             >
@@ -104,6 +107,9 @@
           <!-- FACT FROM THE DATA -->
           <div *ngIf="facts()[d.key] as fact" class="consequence game-fact">
             {{ fact }}
+            <button type="button" class="see-data" (click)="goToExplore(d.explore.section)">
+              See the data: {{ d.explore.label }}
+            </button>
           </div>
 
           <div class="next-indicator" *ngIf="choices()[d.key] !== undefined">
@@ -147,7 +153,7 @@
             <div class="hood-body">
 
               <p class="hood-text">
-                Your first-job chances are (1 − chance of unemployment) × (1 − chance of
+                Your first-job chances are (1 - chance of unemployment) * (1 - chance of
                 underemployment). Both chances come from our gradient-boosted model trained on
                 296,685 US graduates, averaged over the real mix of graduates by gender, race and
                 birthplace, so only your choices move the score.
@@ -156,8 +162,8 @@
               <p class="hood-text">
                 An internship multiplies the odds of underemployment by
                 {{ research.internshipOddsRatio }} (Strada &amp; Burning Glass Institute, 2024).
-                Ten-year chances: first-job chances × {{ research.stayCollegeLevel * 100 }}% + the
-                rest × {{ research.leaveUnderemployment * 100 }}%, from the same study. Choices with
+                Ten-year chances: first-job chances * {{ research.stayCollegeLevel * 100 }}% + the
+                rest * {{ research.leaveUnderemployment * 100 }}%, from the same study. Choices with
                 no measured effect, like the elective and the AI certificate, show a fact but do
                 not change the score.
               </p>
@@ -201,7 +207,7 @@
       </div>
 
       <h1>
-        There's data behind the game
+        Data behind the game
       </h1>
 
       <p>
@@ -213,9 +219,126 @@
 
 
 
-    <!-- BIG STAT -->
+    <!-- BEFORE / AFTER AI HEADLINE (World Bank, SL.UEM.1524.NE.ZS) -->
 
     <section class="data-section">
+
+      <div class="data-label">
+        US YOUTH UNEMPLOYMENT
+      </div>
+
+      <div class="big-stat ai-hook-stat">
+        Post-AI youth unemployment has climbed to 10%.
+      </div>
+
+      <p class="group-note">
+        Share of the labor force ages 15-24 without a job. Before AI: 2022, the year ChatGPT was
+        released (November). After: 2025. Source: World Bank, World Development Indicators
+        (SL.UEM.1524.NE.ZS), United States.
+      </p>
+
+    </section>
+
+
+
+    <!-- 1. NEET & YOUTH UNEMPLOYMENT (World Bank, from analyses/WorldBank.ipynb) -->
+
+    <section class="data-section" id="explore-ai">
+
+      <div class="section-heading">
+        1. BEFORE AND AFTER AI: YOUTH UNEMPLOYMENT AND NEET IN THE US
+      </div>
+
+      <p class="data-description">
+        ChatGPT launched in November 2022, and generative AI spread quickly after. Comparing the
+        years before and after gives a first look at how the youth job market has shifted in the
+        AI era.
+      </p>
+
+      <img class="chart" src="charts/wb_neet_unemployment.png"
+        alt="Line charts of US youth NEET and youth unemployment rates by gender, 2022 to 2025, with 2022 shaded grey">
+
+      <p class="data-description">
+        <b>Before AI</b> (grey band, 2022): youth unemployment and NEET were steady or falling.
+        <b>After AI</b> (2023-2025): youth unemployment has risen every year, from 7.9% in 2023
+        to 10.0% in 2025, and the share of young people who are NEET has edged up.
+      </p>
+
+      <img class="chart" src="charts/wb_youth_unemp_ratio.png"
+        alt="Youth and overall unemployment rates, and the youth-to-overall ratio, 2018 to 2025, with 2023 to 2025 shaded grey">
+
+      <p class="data-description">
+        Here the grey band marks the <b>after-AI years, 2023-2025</b>. Both lines rise, but at
+        different slopes: youth unemployment went from 7.9% to 10.0% (+2.0 percentage points),
+        while overall unemployment went from 3.6% to 4.3% (+0.6 percentage points). The wider
+        economy did cool somewhat, but youth unemployment rose roughly three times as steeply.
+        Young people are now 2.33 times as likely to be unemployed as the labor force overall,
+        the widest gap since at least 2018. The timing lines up with the advent of AI, though
+        this data alone cannot show that AI caused it.
+      </p>
+
+      <p class="data-description">
+        <b>All of this comes from the World Bank's World Development Indicators, the dataset
+        this challenge targets.</b>
+      </p>
+
+      <table class="change-table">
+        <tr><th>Change, 2022 to 2025</th><th>Total</th><th>Female</th><th>Male</th></tr>
+        <tr><td>NEET (percentage points)</td><td>+0.35</td><td>+0.12</td><td>+0.58</td></tr>
+        <tr><td>Youth unemployment (percentage points)</td><td>+1.85</td><td>+1.54</td><td>+2.15</td></tr>
+      </table>
+
+      <p class="source-note">
+        Source: World Bank, World Development Indicators (SL.UEM.NEET.ZS, SL.UEM.1524.NE.ZS and
+        SL.UEM.TOTL.NE.ZS, with female and male series), United States, national estimates. Charts
+        built in Python (pandas, matplotlib) in analyses/WorldBank.ipynb.
+      </p>
+
+    </section>
+
+
+
+    <!-- 2. BREAK DOWN THE NEET POPULATION (World Bank, from analyses/WorldBank.ipynb) -->
+
+    <section class="data-section">
+
+      <div class="section-heading">
+        2. BREAKING DOWN THE NEET POPULATION
+      </div>
+
+      <img class="chart" src="charts/wb_neet_breakdown.png"
+        alt="Stacked bar chart splitting US youth NEET into unemployed and inactive, 2018 to 2025">
+
+      <ul class="data-list">
+        <li><b>Unemployment:</b> youth unemployment rate * labor force participation rate. This is
+          the share of the youth population that is unemployed.</li>
+        <li><b>Inactivity:</b> NEET - unemployment. This is the portion of NEET who are not
+          looking for work.</li>
+      </ul>
+
+      <ol class="data-list">
+        <li>The 2020 spike was due to unemployment, which rose from 4.69% to 8.04%, while
+          inactivity stayed nearly unchanged.</li>
+        <li>NEET stayed higher in 2021-2023 than in 2019 because of inactivity. By 2022-2023,
+          unemployment was back below its 2019 level, but inactivity stayed elevated, rising from
+          5.7% to 6.7%: more young people were not looking for work at all.</li>
+        <li>The 2023-2025 increase was again due to unemployment, which rose from 4.47% to
+          5.55%.</li>
+      </ol>
+
+      <p class="source-note">
+        Source: World Bank, World Development Indicators (SL.UEM.NEET.ZS, SL.UEM.1524.NE.ZS,
+        SL.TLF.ACTI.1524.NE.ZS), United States. Chart built in Python (pandas, matplotlib) in
+        analyses/WorldBank.ipynb.
+      </p>
+
+    </section>
+
+
+
+    <!-- BIG STAT -->
+
+    <section class="data-section" id="explore-underemployment">
 
       <div class="stat-split">
 
@@ -257,7 +380,7 @@
 
     <!-- ODDS CALCULATOR -->
 
-    <section class="data-section">
+    <section class="data-section" id="explore-calculator">
 
       <div class="section-heading">
         LET'S EXPLORE YOUR CHANCES AT 24
@@ -348,7 +471,7 @@
         Estimated probabilities for a 24-year-old college graduate.
         Model: gradient-boosted classifier (scikit-learn), one per outcome, validated on held-out
         households, running live in your browser. Source: US Census Bureau, American Community Survey 1-year PUMS, 2019 and
-        2021–2023 (296,685 graduates aged 22 to 27); BLS Employment Projections, Table 1.2.
+        2021-2023 (296,685 graduates aged 22 to 27); BLS Employment Projections, Table 1.2.
       </p>
 
       <details class="hood">
@@ -381,9 +504,9 @@
 
           <table class="hood-table">
             <tr><th>Outcome</th><th>AUC</th><th>Avg. calibration error</th></tr>
-            <tr><td>Unemployed</td><td>0.66</td><td>0.3 pts</td></tr>
-            <tr><td>NEET</td><td>0.63</td><td>0.3 pts</td></tr>
-            <tr><td>Underemployed</td><td>0.69</td><td>1.1 pts</td></tr>
+            <tr><td>Unemployed</td><td>0.66</td><td>0.3 percentage points</td></tr>
+            <tr><td>NEET</td><td>0.63</td><td>0.3 percentage points</td></tr>
+            <tr><td>Underemployed</td><td>0.69</td><td>1.1 percentage points</td></tr>
           </table>
 
           <p class="hood-text">
@@ -413,7 +536,7 @@
           </table>
 
           <p class="hood-text">
-            Most gaps are under 1 point. The largest:
+            Most gaps are under 1 percentage point. The largest:
             <ng-container *ngFor="let g of largestGaps(); let last = last">
               {{ g.outcome === 'neet' ? 'NEET' : g.outcome }} for {{ g.row.group === 'No' ? 'graduates born abroad' : g.row.group + ' graduates' }}
               ({{ g.row.predicted * 100 | number: '1.1-1' }}% predicted,
@@ -431,26 +554,6 @@
         </div>
 
       </details>
-
-    </section>
-
-
-    <!-- TREND CHART -->
-
-    <section class="data-section">
-
-      <div class="section-heading">
-        YOUTH NEET RATE BY COUNTRY
-      </div>
-
-      <img class="chart" src="charts/neet_americas.png"
-        alt="Bar chart of youth NEET rates by country in the Americas, 2025">
-
-      <p class="data-description">
-        Youth NEET rates range from 8% in Bolivia to 43% in Guyana. At 12%, the
-        United States is among the lowest in the Americas.
-      </p>
-
 
     </section>
 
@@ -476,16 +579,46 @@
     </section>
 
 
-    <!-- MAJORS -->
+    <!-- NEET VS YOUTH UNEMPLOYMENT, OECD (World Bank, interactive, from analyses/WorldBank.ipynb) -->
 
     <section class="data-section">
+
+      <div class="section-heading">
+        NEET VS. YOUTH UNEMPLOYMENT ACROSS THE OECD
+      </div>
+
+      <iframe class="chart-frame" src="charts/wb_oecd_scatter.html" loading="lazy"
+        title="Interactive scatterplot of NEET rate vs youth unemployment rate for 36 OECD countries, 2024"></iframe>
+
+      <p class="data-description">
+        Each point is one OECD country in 2024; the United States is in blue. Use the menu to
+        highlight another country. Across 36 countries, youth unemployment and NEET are only
+        weakly related (r = 0.16, not statistically significant), because many young people
+        who are NEET are not looking for work and so are not counted as unemployed.
+      </p>
+
+      <p class="source-note">
+        Source: World Bank, World Development Indicators (SL.UEM.NEET.ZS and SL.UEM.1524.NE.ZS),
+        2024. Interactive chart built in Python (pandas, Plotly, SciPy) in analyses/WorldBank.ipynb.
+      </p>
+
+    </section>
+
+
+    <!-- MAJORS -->
+
+    <section class="data-section" id="explore-majors">
 
       <div class="section-heading">
         YOUR MAJOR MATTERS
       </div>
 
-      <img class="chart" src="charts/majors.png"
-        alt="Bar chart of underemployment by major for young US graduates">
+      <div class="chart-pair">
+        <img class="chart" src="charts/majors.png"
+          alt="Bar chart of underemployment by major for young US graduates">
+        <img class="chart" src="charts/internship_effect.png"
+          alt="Bar chart of how many percentage points an internship lowers underemployment, by degree field">
+      </div>
 
       <p class="data-description">
         Underemployment ranges from about 22% for education, computer science and
@@ -506,34 +639,37 @@
       </div>
 
       <ul class="references">
+        <li>Brynjolfsson, E., Chandar, B., &amp; Chen, R. (2025). <i>Canaries in the coal mine? Six
+          facts about the recent employment effects of artificial intelligence</i>. Stanford
+          Digital Economy Lab. https://digitaleconomy.stanford.edu</li>
+        <li>Eloundou, T., Manning, S., Mishkin, P., &amp; Rock, D. (2023). <i>GPTs are GPTs: An
+          early look at the labor market impact potential of large language models</i> [Data set:
+          occupation-level exposure scores]. https://github.com/openai/GPTs-are-GPTs</li>
         <li>Federal Reserve Bank of New York. (2026). <i>The labor market for recent college
           graduates</i>. https://www.newyorkfed.org/research/college-labor-market</li>
+        <li>National Association of Colleges and Employers. (2024). <i>The 2024 student survey
+          report: Four-year schools</i>. https://www.naceweb.org</li>
+        <li>National Association of Colleges and Employers. (2025). <i>Job outlook 2025</i>.
+          https://www.naceweb.org</li>
+        <li>National Association of Colleges and Employers. (2026). <i>Job outlook 2026</i>.
+          https://www.naceweb.org</li>
+        <li>PwC. (2025). <i>The fearless future: 2025 global AI jobs barometer</i>.
+          https://www.pwc.com/gx/en/issues/artificial-intelligence/job-barometer.html</li>
+        <li>Strada Education Foundation &amp; Burning Glass Institute. (2024). <i>Talent disrupted:
+          College graduates, underemployment, and the way forward</i>.
+          https://www.strada.org/reports/talent-disrupted</li>
         <li>U.S. Bureau of Labor Statistics. (2026). <i>Occupational projections and worker
           characteristics</i> (Employment Projections, Table 1.2) [Data set].
           https://www.bls.gov/emp/tables.htm</li>
-        <li>U.S. Census Bureau. (2020–2024). <i>American Community Survey 1-year Public Use
-          Microdata Sample, 2019 and 2021–2023</i> [Data set].
+        <li>U.S. Census Bureau. (2020-2024). <i>American Community Survey 1-year Public Use
+          Microdata Sample, 2019 and 2021-2023</i> [Data set].
           https://www.census.gov/programs-surveys/acs/microdata.html</li>
-        <li>World Bank. (2026). <i>World Development Indicators</i> (SL.UEM.NEET.ME.ZS,
-          SL.UEM.TOTL.ZS, SL.UEM.ADVN.ZS) [Data set]. Retrieved September 26, 2026, from
-          https://api.worldbank.org/v2</li>
+        <li>World Bank. (2026). <i>World Development Indicators</i> [Data set]. Retrieved
+          September 27, 2026, from https://api.worldbank.org/v2</li>
       </ul>
 
     </section>
 
-
-
-    <!-- SUBIN'S ANALYSIS -->
-
-    <section class="data-section">
-
-      <div class="section-heading">
-        SUBIN'S ANALYSIS
-      </div>
-
-      <!-- Subin: add your analysis here -->
-
-    </section>
 
 
     <section class="explore-bottom-space">

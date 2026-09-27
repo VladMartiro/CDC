@@ -116,7 +116,11 @@ export class App {
     return d.key === 'secondMajor' ? d.options.filter(o => o.value !== major) : d.options;
   }
 
+  /* Answers are final: once a decision is answered it cannot be changed (Play again resets). */
   choose(d: Decision, value: string): void {
+    if (this.choices()[d.key] !== undefined) {
+      return;
+    }
     this.choices.update(c => {
       const next = { ...c, [d.key]: value };
       if (d.key === 'major' && next.secondMajor === value) {
@@ -124,6 +128,12 @@ export class App {
       }
       return next;
     });
+  }
+
+  /* "See the data" link after a decision: open Explore at the matching section. */
+  goToExplore(sectionId: string): void {
+    this.setView('explore');
+    setTimeout(() => document.getElementById(sectionId)?.scrollIntoView({ block: 'start' }), 100);
   }
 
   restartGame(): void {

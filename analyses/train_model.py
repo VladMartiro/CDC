@@ -1,17 +1,4 @@
-"""Train and evaluate the outcome models on young US college graduates (Census ACS PUMS).
 
-Usage:
-    python analyses/train_model.py
-
-Inputs:  data/pums_grads.parquet (from fetch_pums.py), data/occupation.xlsx (BLS Table 1.2)
-Outputs: data/model_metrics.json
-
-Outcomes (people aged 22-27 with a bachelor's degree or higher):
-    unemployed     - unemployed, among people in the labor force
-    neet           - not employed and not enrolled in school, among everyone
-    underemployed  - employed in a job whose typical entry education (BLS) is below a
-                     bachelor's degree, among the employed
-"""
 
 import json
 import re

@@ -54,7 +54,7 @@ export const SOURCES = [
   'PwC (2025). The Fearless Future: 2025 Global AI Jobs Barometer.',
   'Brynjolfsson, E., Chandar, B., & Chen, R. (2025). Canaries in the Coal Mine? Six Facts about the Recent Employment Effects of Artificial Intelligence. Stanford Digital Economy Lab.',
   'Eloundou, T., Manning, S., Mishkin, P., & Rock, D. (2023). GPTs are GPTs: An Early Look at the Labor Market Impact Potential of Large Language Models.',
-  'U.S. Census Bureau. American Community Survey 1-year PUMS, 2019 and 2021–2023 (our model).'
+  'U.S. Census Bureau. American Community Survey 1-year PUMS, 2019 and 2021-2023 (our model).'
 ];
 
 const odds = (p: number) => p / (1 - p);
@@ -147,24 +147,26 @@ export interface Decision {
   options: Option[];               // empty = dropdown of majors
   affectsScore: boolean;
   fact: (ctx: FactContext) => string;
+  explore: { section: string; label: string };   // "See the data" link to an Explore section
 }
 
 export interface FactContext {
   choice: string;
   choices: Choices;
   data: GameData;
-  deltas: Record<string, number>;  // per option: score (%) with that option minus score before deciding
+  deltas: Record<string, number>;  // per option: score (percentage points) with that option minus score before deciding
   rates: { unemployed: number; underemployed: number };
 }
 
-const pts = (x: number) => `${x >= 0 ? '+' : ''}${(x ?? 0).toFixed(1)}%`;
+const pts = (x: number) => `${x >= 0 ? '+' : ''}${(x ?? 0).toFixed(1)} percentage points`;
 const ptsPhrase = (x: number) => x >= 0.05
-  ? `raises your chances by ${x.toFixed(1)}%`
-  : x <= -0.05 ? `shifts your chances by ${x.toFixed(1)}%` : 'keeps your chances about the same';
+  ? `raises your chances by ${x.toFixed(1)} percentage points`
+  : x <= -0.05 ? `shifts your chances by ${x.toFixed(1)} percentage points` : 'keeps your chances about the same';
 
 export const DECISIONS: Decision[] = [
   {
     key: 'major',
+    explore: { section: 'explore-majors', label: 'Underemployment by major' },
     when: 'FRESHMAN FALL',
     text: 'Time to pick a major.',
     options: [],
@@ -176,6 +178,7 @@ export const DECISIONS: Decision[] = [
   },
   {
     key: 'aiClass',
+    explore: { section: 'explore-ai', label: 'Youth unemployment before and after AI' },
     when: 'FRESHMAN SPRING',
     text: 'You need one more elective.',
     options: [
@@ -184,11 +187,12 @@ export const DECISIONS: Decision[] = [
     ],
     affectsScore: false,
     fact: ({ choice }) => choice === 'challenge'
-      ? 'Job postings that ask for AI skills pay a 56% premium over the same job without them (PwC, 2025 Global AI Jobs Barometer). No study ties a single class to job outcomes, so your chances hold steady.'
-      : 'GPA still matters to many employers: 42% screen new graduates by GPA, though that is down from about three-quarters in 2019 (NACE Job Outlook 2026). No study ties a single class to job outcomes, so your chances hold steady.'
+      ? 'Job postings that ask for AI skills pay a 56% premium over the same job without them (PwC, 2025 Global AI Jobs Barometer).\nNo study ties a single class to job outcomes. Your chances hold steady.'
+      : 'GPA still matters to many employers: 42% screen new graduates by GPA, though that is down from about three-quarters in 2019 (NACE Job Outlook 2026).\nNo study ties a single class to job outcomes. Your chances hold steady.'
   },
   {
     key: 'secondMajor',
+    explore: { section: 'explore-calculator', label: 'Try a second major in the odds calculator' },
     when: 'SOPHOMORE YEAR',
     text: 'Add a second major?',
     options: [
@@ -207,6 +211,7 @@ export const DECISIONS: Decision[] = [
   },
   {
     key: 'internship',
+    explore: { section: 'explore-majors', label: 'How much an internship lowers underemployment' },
     when: 'SUMMER BEFORE SENIOR YEAR',
     text: 'How do you spend the summer?',
     options: [
@@ -223,6 +228,7 @@ export const DECISIONS: Decision[] = [
   },
   {
     key: 'aiCert',
+    explore: { section: 'explore-ai', label: 'Youth unemployment before and after AI' },
     when: 'SENIOR FALL',
     text: 'Your school offers a free AI certificate course.',
     options: [
@@ -233,11 +239,12 @@ export const DECISIONS: Decision[] = [
     fact: ({ choices, data }) => {
       const share = data.majors[choices.major ?? '']?.ai_exposed_share;
       const mine = share == null ? '' : ` In your major, ${share}% of young graduates work in jobs where AI can speed up at least half the tasks (our analysis of Eloundou et al. 2023).`;
-      return `AI is reshaping entry-level work: since generative AI spread, early-career employment in the most AI-exposed jobs fell 13% relative to other jobs (Brynjolfsson, Chandar & Chen 2025), which makes AI skills worth building.${mine} Certificates have not been studied for new graduates yet, so your chances hold steady.`;
+      return `AI is reshaping entry-level work: since generative AI spread, early-career employment in the most AI-exposed jobs fell 13% relative to other jobs (Brynjolfsson, Chandar & Chen 2025), which makes AI skills worth building.${mine}\nCertificates have not been studied for new graduates yet. Your chances hold steady.`;
     }
   },
   {
     key: 'search',
+    explore: { section: 'explore-calculator', label: 'Compare states in the odds calculator' },
     when: 'SENIOR FALL',
     text: 'Where do you look for jobs?',
     options: [
@@ -251,6 +258,7 @@ export const DECISIONS: Decision[] = [
   },
   {
     key: 'grad',
+    explore: { section: 'explore-calculator', label: 'Try a graduate degree in the odds calculator' },
     when: 'SENIOR WINTER',
     text: 'Apply to grad school, or go straight to work?',
     options: [
@@ -264,6 +272,7 @@ export const DECISIONS: Decision[] = [
   },
   {
     key: 'offer',
+    explore: { section: 'explore-underemployment', label: 'What young US graduates are doing' },
     when: 'SENIOR SPRING',
     text: 'You get an offer for a job that does not require a degree.',
     options: [
@@ -277,7 +286,7 @@ export const DECISIONS: Decision[] = [
   }
 ];
 
-/* Score change (%) for each option of a decision, vs. the score before deciding. */
+/* Score change (percentage points) for each option of a decision, vs. the score before deciding. */
 export function optionDeltas(model: ModelFile, data: GameData, c: Choices, d: Decision): Record<string, number> {
   if (!d.affectsScore || d.key === 'major' || d.key === 'offer') {
     return {};

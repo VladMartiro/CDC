@@ -22,12 +22,13 @@ plt.rcParams.update({
     "axes.edgecolor": NAVY, "axes.labelcolor": NAVY, "text.color": NAVY,
     "xtick.color": NAVY, "ytick.color": NAVY, "font.size": 12, "font.weight": "bold",
     "axes.spines.top": False, "axes.spines.right": False, "axes.linewidth": 2,
+    "axes.unicode_minus": False,  # plain "-" for negative numbers
 })
 
 
 WB_TOOLS = "Chart built in Python (pandas, matplotlib) with data retrieved through the World Bank API."
 CENSUS_TOOLS = "Survey-weighted rates computed in Python (pandas, NumPy); chart built with matplotlib."
-CENSUS_SOURCE = ("Source: US Census Bureau, American Community Survey 1-year PUMS, 2019 and 2021–2023; "
+CENSUS_SOURCE = ("Source: US Census Bureau, American Community Survey 1-year PUMS, 2019 and 2021-2023; "
                  "BLS Employment Projections, Table 1.2.\nGraduates aged 22 to 27 with a bachelor's degree. ")
 
 
@@ -77,7 +78,7 @@ def degree_protection(wb):
     ax.set_title("Where a degree does not lower unemployment", loc="left", fontsize=15)
     save(fig, "degree_unemployment.png",
          "Source: World Bank, World Development Indicators (SL.UEM.TOTL.ZS, SL.UEM.ADVN.ZS).\n"
-         "Latest year available for each country, mostly 2023–2025.\n" + WB_TOOLS)
+         "Latest year available for each country, mostly 2023-2025.\n" + WB_TOOLS)
 
 
 def majors(people):
@@ -122,6 +123,39 @@ def grads_breakdown(people):
     save(fig, "grads_breakdown.png", CENSUS_SOURCE + "\n" + CENSUS_TOOLS)
 
 
+def internship_effect(height):
+    """How much an internship lowers underemployment, by degree field (decreases only, capped at 0).
+
+    Data: Strada Education Foundation & Burning Glass Institute (2024), Talent Disrupted, Figure 2.9,
+    transcribed to data/internship_by_field.csv. Five years after graduation, terminal bachelor's degree.
+    """
+    d = pd.read_csv(DATA / "internship_by_field.csv")
+    short = {
+        "Business: other (e.g., management, marketing, HR)": "Business: other",
+        "Business: math-intensive (e.g., accounting, finance)": "Business: math-intensive",
+        "Communication, journalism, and related programs": "Communication & journalism",
+        "Public administration and social service professions": "Public admin. & social service",
+    }
+    d["label"] = d["field"].replace(short)
+    # change in underemployment with an internship; only decreases are shown, so cap at 0
+    d["change"] = (d["underemployed_with_internship"] - d["underemployed_without_internship"]).clip(upper=0)
+    d = d.sort_values("change", ascending=False)
+
+    fig, ax = plt.subplots(figsize=(8, height))
+    ax.barh(d["label"], d["change"], color=CAROLINA, edgecolor=NAVY, linewidth=1.2, height=0.65)
+    for i, v in enumerate(d["change"]):
+        ax.text(v - 0.4, i, f"{v:.0f}", va="center", ha="right", fontsize=10)
+    ax.set_xlim(-30, 0)
+    ax.axvline(0, color=NAVY, lw=1.5)
+    ax.set_xlabel("Change in underemployment with an internship (percentage points)")
+    ax.margins(y=0.01)
+    ax.set_title("How much an internship lowers underemployment", loc="left", fontsize=15)
+    save(fig, "internship_effect.png",
+         "Source: Strada Education Foundation & Burning Glass Institute (2024), Talent Disrupted, Figure 2.9.\n"
+         "Bachelor's graduates five years after graduation; health fields excluded. Only decreases shown (capped at 0).\n"
+         "Chart built in Python (pandas, matplotlib).")
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     wb = pd.read_csv(DATA / "worldbank_long.csv")
@@ -129,6 +163,9 @@ def main():
     neet_by_country(wb)
     degree_protection(wb)
     majors(people[people["grad_degree"] == "No"])
+    # shown side by side with the majors chart, so draw it at the same height (one row per major there)
+    major_rows = people.loc[people["grad_degree"] == "No", "major"].nunique() - 1  # minus "Other"
+    internship_effect(height=0.3 * major_rows + 1.4)
     grads_breakdown(people[people["grad_degree"] == "No"])
 
 

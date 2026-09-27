@@ -311,17 +311,56 @@ button {
 }
 
 /* "43% are underemployed" headline: smaller than the default big stat */
+/* "43% are underemployed": subtitle size, like the Explore hero's subtitle */
 .explore-page .big-stat.hook-stat {
-  font-size: clamp(64px, 12vw, 120px);
-  line-height: 0.9;
+  font-size: clamp(17px, 4vw, 23px);
+  font-weight: 650;
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+
+/* before/after AI headline at the top of Explore: large display text */
+.explore-page .big-stat.ai-hook-stat {
+  font-size: clamp(40px, 6.5vw, 76px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
 }
 
 .hook-stat span {
-  display: block;
-  margin-top: 10px;
+  font-size: 1em;
+}
 
-  font-size: 0.34em;
-  letter-spacing: -0.03em;
+.explore-page .data-list {
+  max-width: 860px;
+  margin: 24px 0 0;
+  padding-left: 22px;
+
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+.explore-page .data-list li {
+  margin-bottom: 8px;
+}
+
+.explore-page .change-table {
+  margin-top: 24px;
+  border-collapse: collapse;
+
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.explore-page .change-table th {
+  font-weight: 700;
+}
+
+.explore-page .change-table th,
+.explore-page .change-table td {
+  padding: 8px 18px 8px 0;
+  border-bottom: 1px solid var(--navy);
+  text-align: left;
 }
 
 
@@ -403,4 +442,105 @@ button {
 .game-page .game-sources {
   padding-left: 18px;
   font-size: 12px;
+}
+
+/* answered decisions are locked */
+.game-page .choice:disabled {
+  cursor: default;
+}
+
+.game-page .major-select:disabled {
+  opacity: 1;
+  color: var(--navy);
+}
+
+/* Explore paragraphs: regular weight (bold only where marked with <b>) */
+.explore-page .data-section .data-description {
+  max-width: none;
+  font-weight: 400;
+}
+
+/* every text under a chart spans the chart's full width */
+.explore-page .data-section .data-list,
+.explore-page .data-section .source-note,
+.explore-page .data-section .group-note,
+.explore-page .data-section .hood-text {
+  max-width: none;
+}
+
+/* interactive (Plotly) chart embedded from charts/*.html */
+.chart-frame {
+  display: block;
+  width: 100%;
+  height: 580px;
+
+  border: 2px solid var(--navy);
+  background: #ffffff;
+}
+
+/* two charts side by side (stacked on phones) */
+.chart-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+/* identical frames: both use the majors chart's shape (1550 x 1627);
+   the narrower internship chart is centered inside with a little space at the sides */
+.explore-page .chart-pair .chart {
+  aspect-ratio: 1550 / 1627;
+  object-fit: contain;
+  background: #f7f4ed;
+}
+
+@media (max-width: 700px) {
+  .chart-pair {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* facts keep their line breaks ("\n" in game.ts) */
+.game-page .game-fact {
+  white-space: pre-line;
+}
+
+/* "See the data" link to the matching Explore section */
+.game-page .see-data {
+  display: block;
+  margin-top: 10px;
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+  color: #2b6ca3;
+
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  text-align: left;
+  text-decoration: underline;
+  white-space: normal;
+  cursor: pointer;
+}
+
+/* scroll buffer: snap only when close to a question (not on every small scroll),
+   and extra room below an answered question's fact, so reading it doesn't jump
+   straight to the next question */
+.app-shell .game-page .story {
+  scroll-snap-type: y proximity;
+}
+
+.game-page .question-scene.answered {
+  padding-bottom: 25vh;
+}
+
+/* Explore section titles ("LET'S EXPLORE YOUR CHANCES AT 24", …): 75% of the
+   top headline (ai-hook-stat is clamp(40px, 6.5vw, 76px)) */
+.explore-page .data-section > .section-heading {
+  font-size: clamp(30px, 4.875vw, 57px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  opacity: 1;
 }
