@@ -17,9 +17,9 @@ For run order, variable definitions, model results, and full references, see
 ## Repository layout
 
 ```
-analyses/   Python scripts and notebooks (data download, modeling, charts)
+analyses/   Python scripts and notebooks (API using/data download, modeling, charts)
 config/     indicators.yaml: World Bank indicator list used by fetch_worldbank.py
-data/       Input data and generated outputs (some large files are not committed, see below)
+data/       World bank data from API (V2) & Census (PUMS)
 frontend/   Angular website, deployed to GitHub Pages
 ```
 
