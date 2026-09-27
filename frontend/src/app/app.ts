@@ -132,10 +132,16 @@ export class App {
     });
   }
 
-  /* "See the data" link after a decision: open Explore at the matching section. */
+  /* "See the data" link after a decision: fade into Explore, then glide to the matching section. */
   goToExplore(sectionId: string): void {
     this.setView('explore');
-    setTimeout(() => document.getElementById(sectionId)?.scrollIntoView({ block: 'start' }), 100);
+    setTimeout(() =>
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 350);
+  }
+
+  /* "Look at the data behind this" on the graduation screen: open Explore at the top. */
+  exploreFromGraduation(): void {
+    this.setView('explore');
   }
 
   /* ---------- Resources page (opened from the graduation screen) ---------- */
