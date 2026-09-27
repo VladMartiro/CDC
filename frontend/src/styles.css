@@ -323,3 +323,84 @@ button {
   font-size: 0.34em;
   letter-spacing: -0.03em;
 }
+
+
+/* ============================================================
+   DATA-DRIVEN GAME
+   ============================================================ */
+
+.game-page .major-select {
+  display: block;
+  width: min(620px, 100%);
+  min-height: 56px;
+  margin: 0 auto;
+  padding: 0 14px;
+
+  border: 2px solid var(--navy);
+  background: var(--white);
+  color: var(--navy);
+
+  font: inherit;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.game-page .game-fact {
+  max-width: 560px;
+  padding: 16px 18px;
+
+  border-left: 3px solid var(--carolina);
+  background: rgba(123, 175, 212, 0.12);
+
+  font-size: 15px;
+  text-align: left;
+}
+
+
+.game-loading {
+  font-size: 15px;
+  opacity: 0.7;
+}
+
+
+.game-page .restart {
+  width: min(320px, 100%);
+  margin: 26px auto 0;
+  border: 2px solid var(--navy);
+  text-align: center;
+}
+
+/* intro heading contains the long word UNDEREMPLOYMENT: size it to fit any screen */
+.game-page .story .intro-scene .content h1 {
+  font-size: clamp(26px, 7.4vw, 84px);
+}
+
+.game-page .intro-scene .content .intro-tagline {
+  margin: 24px auto 0;
+  max-width: 680px;
+
+  font-size: clamp(22px, 5vw, 32px);
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* "Behind the scenes" panel on the graduation screen (Carolina-blue background) */
+.game-page .game-hood {
+  max-width: 620px;
+  margin: 30px auto 0;
+  text-align: left;
+}
+
+.game-page .game-hood summary {
+  color: var(--navy);
+}
+
+.game-page .game-hood .hood-body {
+  border-left-color: var(--navy);
+}
+
+.game-page .game-sources {
+  padding-left: 18px;
+  font-size: 12px;
+}
