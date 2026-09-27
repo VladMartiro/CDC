@@ -173,7 +173,7 @@ export const DECISIONS: Decision[] = [
     affectsScore: true,
     fact: ({ choice, data }) => {
       const m = data.majors[choice];
-      return `Here is where ${choice} graduates aged 22 to 27 land: ${m.underemployed}% of those working are underemployed (in jobs that do not require their degree), and ${m.unemployed}% of those looking for work are unemployed. The choices ahead can shift these numbers. Source: our analysis of the Census American Community Survey.`;
+      return `Here is where ${choice} graduates aged 22 to 27 land: ${m.underemployed}% of those working are underemployed (in jobs that do not require their degree), and ${m.unemployed}% of those looking for work are unemployed (American Community Survey). The choices ahead can shift these numbers.`;
     }
   },
   {
