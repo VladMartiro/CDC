@@ -160,7 +160,7 @@ export interface FactContext {
 
 const pts = (x: number) => `${x >= 0 ? '+' : ''}${(x ?? 0).toFixed(1)} percentage points`;
 const ptsPhrase = (x: number) => x >= 0.05
-  ? `raises your chances by ${x.toFixed(1)} percentage points`
+  ? `raises your chances of landing a first job where you utilize your degree by ${x.toFixed(1)}%`
   : x <= -0.05 ? `shifts your chances by ${x.toFixed(1)} percentage points` : 'keeps your chances about the same';
 
 export const DECISIONS: Decision[] = [
