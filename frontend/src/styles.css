@@ -539,7 +539,6 @@ button {
   opacity: 1;
 }
 
-<<<<<<< HEAD
 /* ============================================================
    GRADUATION BUTTONS + RESOURCES PAGE
    ============================================================ */
@@ -683,7 +682,8 @@ button {
 .resources-back {
   padding: 50px 24px 10px;
   text-align: center;
-=======
+}
+
 /* NEET definition at the top of Explore */
 .explore-hero .neet-definition {
   margin-top: 18px;
@@ -692,7 +692,6 @@ button {
   font-size: clamp(15px, 3.4vw, 19px);
   font-weight: 500;
   line-height: 1.5;
->>>>>>> d4c91d019e4745e2b7f827305cd8bdf7887f4b44
 }
 
 /* Explore fades in when opened */
@@ -705,3 +704,8 @@ button {
   to { opacity: 1; transform: none; }
 }
 
+
+/* context heading contains UNDEREMPLOYMENT: size it to fit any screen */
+.game-page .story .context-scene .content h2 {
+  font-size: clamp(26px, 7.4vw, 72px);
+}
