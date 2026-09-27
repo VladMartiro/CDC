@@ -253,10 +253,20 @@ h2 {
 }
 
 .graduation-icon {
-  font-size: 90px;
-  margin: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 25px auto;
 }
 
+.graduation-icon img {
+  width: 140px;
+  max-width: 45vw;
+  height: auto;
+
+  image-rendering: pixelated;
+}
 .graduation-copy {
   font-size: 20px;
   line-height: 1.5;
